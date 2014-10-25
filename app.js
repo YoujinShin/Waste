@@ -24,7 +24,7 @@ app.configure(function(){
 
   // setup template engine - we're using Hogan-Express
   app.set('view engine', 'html');
-  app.set('layout','layout');
+  // app.set('layout','layout');
   app.engine('html', require('hogan-express')); // https://github.com/vol4ok/hogan-express
 
   app.use(express.favicon());
@@ -74,32 +74,32 @@ var routes = require('./routes/index.js');
 
 app.get('/', routes.index);
 
-//new astronaut routes
-app.get('/create',routes.astroForm); //display form
-app.post('/create',routes.createAstro); //form POST submits here
+// //new astronaut routes
+// app.get('/create',routes.astroForm); //display form
+// app.post('/create',routes.createAstro); //form POST submits here
 
-// display a single astronaut
-app.get('/astronauts/:astro_id', routes.detail);
+// // display a single astronaut
+// app.get('/astronauts/:astro_id', routes.detail);
 
-// edit astronaut
-app.get('/astronauts/:astro_id/edit', routes.editAstroForm); //GET display form
-app.post('/astronauts/:astro_id/edit', routes.updateAstro); //POST update database
+// // edit astronaut
+// app.get('/astronauts/:astro_id/edit', routes.editAstroForm); //GET display form
+// app.post('/astronauts/:astro_id/edit', routes.updateAstro); //POST update database
 
-// delete astronaut
-app.get('/astronauts/:astro_id/delete', routes.deleteAstro);
+// // delete astronaut
+// app.get('/astronauts/:astro_id/delete', routes.deleteAstro);
 
-// add ship's log
-app.post('/astronauts/:astro_id/addshiplog', routes.postShipLog);
+// // add ship's log
+// app.post('/astronauts/:astro_id/addshiplog', routes.postShipLog);
 
-// API JSON Data routes
-app.get('/data/astronauts',routes.data_all);
-app.get('/data/astronauts/:astro_id', routes.data_detail);
+// // API JSON Data routes
+// app.get('/data/astronauts',routes.data_all);
+// app.get('/data/astronauts/:astro_id', routes.data_detail);
 
-// consume a remote API
-app.get('/remote_api_demo', routes.remote_api);
+// // consume a remote API
+// app.get('/remote_api_demo', routes.remote_api);
 
 
-app.post('/set_session', routes.set_session);
+// app.post('/set_session', routes.set_session);
 
 // create NodeJS HTTP server using 'app'
 http.createServer(app).listen(app.get('port'), function(){
