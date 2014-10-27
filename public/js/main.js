@@ -1,66 +1,80 @@
-var margin = { top:30, right:60, bottom:40, left:40 };
+L.mapbox.accessToken = 'pk.eyJ1Ijoic2Vuc2VhYmxlIiwiYSI6ImxSNC1wc28ifQ.hst-boAjFCngpjzrbXrShw';
 
-var width = 1000;
-// var width = parseInt(d3.select('#viz').style('width'), 10),
-    width = width - margin.left - margin.right,
+var map = L.map('map', {
+  minZoom: 2,
+  maxZoom: 10,
+  zoomControl: false
+}).setView([30, 0], 2); //30, -20
 
-    height = 400;
-    height = height - margin.top - margin.bottom;
+// var base_layer = L.mapbox.tileLayer('examples.map-20v6611k').addTo(map); // grey 
+// ('examples.map-zswgei2n'); // color
+// ('examples.map-20v6611k'); // grey 
+// ('examples.map-h67hf2ic'); // white
+// ('examples.map-2k9d7u0c'); // satellite
+// ('examples.map-y7l23tes'); // dark
+// ('examples.map-h68a1pf7'); // pink
+// ('examples.map-8ced9urs'); // black & white
 
-// var x = d3.time.scale()
-//     .range([0, width]);
-
-// var y = d3.scale.linear()
-//     .domain([0, 3800])
-//     .range([height, 0]);
-
-// var xAxis = d3.svg.axis()
-//     .scale(x)
-//     .orient("bottom");
-
-// var yAxis = d3.svg.axis()
-//     .scale(y)
-//     .orient("left");
-
-// var cum_ebola_case = d3.map();
-// var cum_ebola_death = d3.map();
-
-// var parseDate = d3.time.format("%Y-%m-%d").parse; 
-// var parseDate = d3.time.format("%m/%d/%y").parse;
-
-var svg = d3.select("#map").append("svg")
-    .attr("width", width + margin.left + margin.right)
-    .attr("height", height + margin.top + margin.bottom)
-  .append("g")
-    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");;
+var base_layer = L.mapbox.tileLayer('examples.map-2k9d7u0c');
+base_layer.setOpacity(0.7);
+base_layer.addTo(map);
 
 queue()
   .defer(d3.csv, "monitoring2.csv")
   .await(ready);
 
+function obj(lon, lat) { return { x: lon, y: lat }; } // x:lon, y:lat
+
 function ready(error, data) {
-	// console.log(data);
-	data.forEach(function(d) {
-		console.log(d.group+": "+d.lat+", "+d.lon);
-	})
-  // var bg = svg.append("rect")
-  //             .attr("x", -margin.left)
-  //             .attr("y", -margin.top)
-  //             .attr("width", width + margin.left + margin.right)
-  //             .attr("height", height + margin.top + margin.bottom)
-  //             .style("fill", "none");
+  for(var i = 0; i < data.length; i++ ) {
 
-  // data.forEach(function(d) {  
-  //   d.Date = parseDate(d.Date);  
+    if(i > 1) {
+      // console.log(i);
+      var start_group = data[i].group;
+      var end_group = data[i-1].group;
 
-    // if(d.Country == 'Guinea') {
-    //   console.log(d.Value);
-    //   current_guinea = d.Value;
-    // }
-    // else if(d.Country == 'Sierra Leone') current_sierraleone = d.Value;
-    // else if(d.Country == 'Negeria') current_nigeria = d.Value;
-    // else if(d.Country == 'Liberia') current_liberia = d.Value;
-    // else if(d.Country == 'Senegal') current_senegal = d.Value;
-};
+      var start = obj(parseFloat(data[i].lon), parseFloat(data[i].lat));
+      var end = obj(parseFloat(data[i-1].lon), parseFloat(data[i-1].lat));
 
+      if( determineData(start.x, end.x, start_group, end_group) == true ) { 
+        console.log('draw !');
+        var generator = new arc.GreatCircle(start, end);
+
+        var line = generator.Arc(90, {offset: 10 });
+        // console.log(line.json());
+
+        L.geoJson(line.json(), {
+          color: getColor(start_group),
+          weight: 1,
+          opacity: 1
+        }).addTo(map);
+      } // determineData();
+
+    } // i >1
+  }// for
+
+};// ready
+
+function determineData(a, b, c, d) {
+  console.log('a: '+a);
+  console.log('b: '+b);
+  console.log('c: '+c);
+  console.log('d: '+d);
+
+  if (a != b & c == d) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+function getColor(group) {
+  if (group == 'MIT03') return 'red';
+  else if(group == 'MIT05') return 'blue';
+  else if(group == 'MIT07') return 'yellow';
+  else if(group == 'MIT08') return 'orange';
+  else if(group == 'MIT09') return 'white';
+  else if(group == 'MIT10') return 'purple';
+  else if(group == 'MIT11') return 'green';
+}
   

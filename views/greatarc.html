@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style>
+body {
+  padding: 0px;
+  margin: 0px;
+  /*background-color: #fff;*/
+  background-color: #4c4c4c;
+}
+
+.graticule {
+  fill: none;
+  stroke: #777;
+  stroke-width: .5px; 
+  stroke-opacity: 0;
+}
+
+.land {
+  /*fill: #bbb;*/
+  fill: #333333;
+}
+
+.arc {
+  fill: none;
+  /*stroke: red;*/
+  stroke-width: 0.8px;
+  stroke-opacity: 0.5;
+  stroke-linecap: round;
+}
+
+.boundary {
+  fill: none;
+  stroke: none;
+  /*stroke: #fff;*/
+  stroke-width: .5px;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+}
+
+#tooltip {   
+      position: absolute;           
+      text-align: center;
+      padding: 20px;             
+      margin: 10px;
+      font: 12px sans-serif;        
+      border: 1px;      
+      border-radius: 2px;           
+      pointer-events: none;   
+      font-size: 18px;    
+      color: #081112;  
+      font-family: Georgia, Arial, Helvetica, sans-serif !important;
+    }
+</style>
+<body>
+<script src="http://d3js.org/d3.v3.min.js"></script>
+<script src="http://d3js.org/topojson.v1.min.js"></script>
+<script src="/js/queue.min.js"></script>
+<script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
+
+
+<script>
+
+var width = 1150,
+    height = 580;
+
+// var projection = d3.geo.orthographic()
+var projection = d3.geo.equirectangular()
+// var projection = d3.geo.mercator()
+    // .scale(153)
+    .scale(210) //153 // 190
+    // .rotate()
+    .rotate([160, 0]) // 160,0
+    // .translate([width / 2+80, 370])
+    .translate([width / 2+80, 370])
+    .precision(.1); //.1
+
+var path = d3.geo.path()
+    .projection(projection);
+
+var graticule = d3.geo.graticule();
+
+var svg = d3.select("body").append("svg")
+    .attr("width", width)
+    .attr("height", height);
+
+///////////
+queue()
+  .defer(d3.csv, "monitoring2.csv")
+  .await(ready);
+
+// function obj(lon, lat) { return { x: lon, y: lat }; } // x:lon, y:lat
+function obj(lon, lat) { return  [lon, lat]; }
+
+var tooltip = d3.select("body")
+  .append("div")
+  .attr("id", "tooltip");
+
+
+function ready(error, data) {
+  for(var i = 0; i < data.length; i++ ) {
+
+    if(i > 1) {
+      // console.log(i);
+      var start_group = data[i].group;
+      var end_group = data[i-1].group;
+
+      var start = obj(parseFloat(data[i].lon), parseFloat(data[i].lat));
+      var end = obj(parseFloat(data[i-1].lon), parseFloat(data[i-1].lat));
+
+      if( determineData(start[0], end[0], start_group, end_group) == true ) { 
+        svg.append("path")
+            .datum({type: "LineString", coordinates: [start, end], name: start_group})
+            .attr("class", "arc")
+            .attr("d", path)
+            .style("stroke", getColor(start_group))
+            .on("mouseover", function(d){
+              var tempText = tooltip.text(d.name);
+              // this.style.fill = "#9cdede";
+              this.style.stroke = "red";
+              tooltip.style("visibility", "visible");
+            })
+            .on("mousemove", function(){
+              tooltip.style("top", (event.pageY-10)+"px").style("left",(event.pageX+10)+"px");
+            })
+            .on("mouseout", function(){
+              this.style.stroke = "white";
+              // this.style.fill = "rgba(255,255,255,0.6)";
+              tooltip.style("visibility", "hidden");
+            });
+            
+      } // determineData();
+
+    } // i >1
+  }// for
+
+};// ready
+
+
+function determineData(a, b, c, d) {
+  // console.log('a: '+a);
+  // console.log('b: '+b);
+  // console.log('c: '+c);
+  // console.log('d: '+d);
+
+  if (a != b & c == d) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+function getColor(group) {
+  
+  // return '#4bc3fb';
+
+  // if (group == 'MIT03') return '#4bc3fb';
+  // else if(group == 'MIT05') return 'blue';
+  // else if(group == 'MIT07') return 'yellow';
+  // else if(group == 'MIT08') return 'orange';
+  // else if(group == 'MIT09') return 'white';
+  // else if(group == 'MIT10') return 'purple';
+  // else if(group == 'MIT11') return 'green';
+
+  return 'white';
+}
+
+
+///////////
+
+svg.append("path")
+    .datum(graticule)
+    .attr("class", "graticule")
+    .attr("d", path);
+
+// svg.append("path")
+//     .datum({type: "LineString", coordinates: [[-77.05, 38.91], [116.35, 39.91]]})
+//     .attr("class", "arc")
+//     .attr("d", path);
+
+// d3.json("world-110m.json", function(error, world) {
+d3.json("world-50m.json", function(error, world) {
+  svg.insert("path", ".graticule")
+      .datum(topojson.feature(world, world.objects.land))
+      .attr("class", "land")
+      .attr("d", path);
+
+  svg.insert("path", ".graticule")
+      .datum(topojson.mesh(world, world.objects.countries, function(a, b) { return a !== b; }))
+      .attr("class", "boundary")
+      .attr("d", path);
+});
+
+d3.select(self.frameElement).style("height", height + "px");
+
+</script>

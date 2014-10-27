@@ -12,7 +12,20 @@ var moment = require("moment"); // date manipulation library
 
 exports.index = function(req, res) {
 	console.log('main page requested');
+
+	// res.render('greatarc.html');
+	// res.render('worldtour.html');
 	res.render('main.html');
+}
+
+exports.worldtour = function(req, res) {
+	console.log('worldtour page requested');
+	res.render('worldtour.html');
+}
+
+exports.greatarc = function(req, res) {
+	console.log('greatarc page requested');
+	res.render('greatarc.html');
 }
 
 // /*
