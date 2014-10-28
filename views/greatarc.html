@@ -1,11 +1,14 @@
 <!DOCTYPE html>
 <meta charset="utf-8">
+<head>
+<link href='http://fonts.googleapis.com/css?family=Lato:300,400' rel='stylesheet' type='text/css'>
 <style>
 body {
   padding: 0px;
   margin: 0px;
   /*background-color: #fff;*/
-  background-color: #4c4c4c;
+  background-color: #f0f0f0;
+  /*background-color: #4c4c4c;*/
 }
 
 .graticule {
@@ -16,16 +19,21 @@ body {
 }
 
 .land {
-  /*fill: #bbb;*/
-  fill: #333333;
+  fill: #ced3d8;
+  opacity: 0.9;
 }
 
 .arc {
   fill: none;
-  /*stroke: red;*/
-  stroke-width: 0.8px;
-  stroke-opacity: 0.5;
+  stroke-width: 1px;
+  stroke-opacity: 0.8;
   stroke-linecap: round;
+}
+
+.memo {
+  font-family: 'Lato', sans-serif;
+  font-size: 12px;
+  /*padding:10px;*/
 }
 
 .boundary {
@@ -47,10 +55,13 @@ body {
       border-radius: 2px;           
       pointer-events: none;   
       font-size: 18px;    
-      color: #fff;  
+      color: #000;  
       font-family: Georgia, Arial, Helvetica, sans-serif !important;
     }
 </style>
+</head>
+
+
 <body>
 <!-- <script src="http://d3js.org/d3.v3.min.js"></script> -->
 <script src="/js/d3.min.js"></script>
@@ -61,21 +72,21 @@ body {
 <script src="/js/d3.tip.v0.6.3.js"></script>
 <!-- <script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script> -->
 
-
 <script>
-
 var width = 1440, // 1440 window
     height = 580;
 
 // var projection = d3.geo.orthographic()
 var projection = d3.geo.equirectangular()
 // var projection = d3.geo.mercator()
-    // .scale(153)
-    .scale(280) //153 // 190
-    // .rotate()
+    // .scale(280) //153 // 190
+    // .rotate([160, 0]) // 160,0
+    // .translate([width/2+160, 440])
+    // .precision(0.02); //.1
+
+    .scale(330) // 340
     .rotate([160, 0]) // 160,0
-    // .translate([width / 2+80, 370])
-    .translate([width/2+160, 440])
+    .translate([width/2+160, 500])
     .precision(0.02); //.1
 
 var path = d3.geo.path()
@@ -87,16 +98,10 @@ var svg = d3.select("body").append("svg")
     .attr("width", width)
     .attr("height", height);
 
-
 svg.append("path")
     .datum(graticule)
     .attr("class", "graticule")
     .attr("d", path);
-
-// svg.append("path")
-//     .datum({type: "LineString", coordinates: [[-77.05, 38.91], [116.35, 39.91]]})
-//     .attr("class", "arc")
-//     .attr("d", path);
 
 // d3.json("world-110m.json", function(error, world) {
 d3.json("world-50m.json", function(error, world) {
@@ -113,10 +118,10 @@ d3.json("world-50m.json", function(error, world) {
 
 d3.select(self.frameElement).style("height", height + "px");
 
-
 ///////////
 queue()
   .defer(d3.csv, "monitoring2.csv")
+  .defer(d3.csv, "points.csv")
   .await(ready);
 
 function obj(lon, lat) { return  [lon, lat]; }
@@ -125,13 +130,10 @@ var tooltip = d3.select("body")
   .append("div")
   .attr("id", "tooltip");
 
-
-function ready(error, data) {
-
+function ready(error, data, points) {
+  // PATHS
   for(var i = 0; i < data.length; i++ ) {
-
     if(i > 1) {
-      // console.log(i);
       var start_group = data[i].group;
       var end_group = data[i-1].group;
 
@@ -141,47 +143,62 @@ function ready(error, data) {
       if( determineData(start[0], end[0], start_group, end_group) == true ) { 
         svg.append("path")
             .datum({type: "LineString", coordinates: [start, end], name: start_group}) // datum
-            // .data(start_group)
             .attr("class", "arc")
             .attr("d", path)
             .style("stroke", getColor(start_group))
             .on("mouseover", function(d){
-
-              // console.log(d3.select(this));
-              // console.log(d);
               groupSelect(d.name);
               tooltip.text(d.name);
-
-              // d3.select(this).style("stroke", "#9e1c1e");
-              // d3.select(this).style("stroke-opacity", 0.96);
-              // d3.select(this).style("stroke-width", 3);
-              // d3.select(this).moveToFront();
-
               tooltip.style("visibility", "visible");
             })
             .on("mousemove", function(){
               tooltip.style("top", (event.pageY-10)+"px").style("left",(event.pageX+10)+"px");
             })
             .on("mouseout", function(d){
-              // d3.select(this).style("stroke", "white");
-              //  d3.select(this).style("stroke-opacity", 0.5);
-              // d3.select(this).style("stroke-width", 0.8);
               groupReset(d.name);
               tooltip.style("visibility", "hidden");
             });
             
       } // determineData();
-
     } // i >1
   }// for
+
+  // CIRCLES
+  svg.selectAll("circle")
+     .data(points)
+     .enter()
+     .append("circle")
+     .style("fill", "#474b7f")
+     .style("opacity", 0.6)
+     .attr("r", function(d) { return d.r; })
+     .attr("transform", function(d) {
+      return "translate("+
+        projection([ parseFloat(d.lon), parseFloat(d.lat) ])  // lon, lat
+      + ")"
+     });
+
+  svg.selectAll("text")
+     .data(points)
+     .enter()
+     .append("text")
+     .attr("class", "memo")
+     .text(function(d) { return d.loc; })
+     .attr("fill", "#777") //555
+     .attr("transform", function(d) {
+      var lon = parseFloat(d.lon) + parseFloat(d.lon_d) ;
+      var lat = parseFloat(d.lat) + parseFloat(d.lat_d);
+
+      return "translate("+ projection([ lon, lat ]) + ")";
+     });
+
 };// ready
 
 function groupSelect(name) {
   svg.selectAll("path").each(function(e) {
     // console.log(e);
     if(e.name == name) {
-      d3.select(this).style("stroke", "#9e1c1e");
-      d3.select(this).style("stroke-opacity", 0.96);
+      // d3.select(this).style("stroke", "#9e1c1e");
+      d3.select(this).style("stroke-opacity", 0.98);
       d3.select(this).style("stroke-width", 3);
       d3.select(this).moveToFront();
     }
@@ -191,14 +208,12 @@ function groupSelect(name) {
 function groupReset(name) {
   svg.selectAll("path").each(function(e) {
     if(e.name == name) {
-      d3.select(this).style("stroke", "white");
-      d3.select(this).style("stroke-opacity", 0.5);
-      d3.select(this).style("stroke-width", 0.8);
+      d3.select(this).style("stroke-opacity", 0.8);
+      d3.select(this).style("stroke-width", 1);
       // d3.select(this).moveToFront();
     }
   })
 }
-
 
 function determineData(a, b, c, d) {
   if (a != b & c == d) {
@@ -209,22 +224,52 @@ function determineData(a, b, c, d) {
 }
 
 function getColor(group) {
-  // if (group == 'MIT03') return '#4bc3fb';
-  // else if(group == 'MIT05') return 'blue';
-  // else if(group == 'MIT07') return 'yellow';
-  // else if(group == 'MIT08') return 'orange';
-  // else if(group == 'MIT09') return 'white';
-  // else if(group == 'MIT10') return 'purple';
-  // else if(group == 'MIT11') return 'green';
+  // blue - high line
+  if (group == 'MIT03') return '#7e95ac';
+  else if(group == 'MIT09') return '#6b7b93';
 
-  return 'white';
+  // red - middle line
+  else if(group == 'MIT07') return '#cb536b';
+  else if(group == 'MIT10') return '#ef6a30';
+
+  // green -  low line
+  else if(group == 'MIT05') return '#599110';
+
+  // in US only
+  else if(group == 'MIT08') return '#b7342f';
+  else if(group == 'MIT11') return '#353537';
 }
 
+///////////
+// Descriptions // lat, lon, description, offset(x, y), r
+// svg.append("circle")
+//   .style("fill", "#474b7f")
+//   .style("opacity", 0.5)
+//   .attr("r", 7)
+//   .attr("transform", "translate(" + projection([
+//       -118.1724, 33.907299 // lon, lat
+//     ]) + ")"
+//   );
+
+// svg.append("circle")
+//   .style("fill", "#474b7f")
+//   .style("opacity", 0.5)
+//   .attr("r", 4.5)
+//   .attr("transform", "translate(" + projection([
+//       117.7172623, 39.1067044 // lon, lat
+//     ]) + ")"
+//   );
+
+// svg.append("circle")
+//   .style("fill", "#474b7f")
+//   .style("opacity", 0.5)
+//   .attr("r", 4.5)
+//   .attr("transform", "translate(" + projection([
+//       113.026, 23.1698// lon, lat
+//     ]) + ")"
+//   );
 
 ///////////
-
-
-
 d3.selection.prototype.moveToFront = function() {
   return this.each(function(){
     this.parentNode.appendChild(this);
