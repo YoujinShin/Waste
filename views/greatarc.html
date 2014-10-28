@@ -47,7 +47,7 @@ body {
       border-radius: 2px;           
       pointer-events: none;   
       font-size: 18px;    
-      color: #081112;  
+      color: #fff;  
       font-family: Georgia, Arial, Helvetica, sans-serif !important;
     }
 </style>
@@ -64,19 +64,19 @@ body {
 
 <script>
 
-var width = 1150,
+var width = 1440, // 1440 window
     height = 580;
 
 // var projection = d3.geo.orthographic()
 var projection = d3.geo.equirectangular()
 // var projection = d3.geo.mercator()
     // .scale(153)
-    .scale(210) //153 // 190
+    .scale(280) //153 // 190
     // .rotate()
     .rotate([160, 0]) // 160,0
     // .translate([width / 2+80, 370])
-    .translate([width / 2+80, 370])
-    .precision(.1); //.1
+    .translate([width/2+160, 440])
+    .precision(0.001); //.1
 
 var path = d3.geo.path()
     .projection(projection);
@@ -92,15 +92,17 @@ queue()
   .defer(d3.csv, "monitoring2.csv")
   .await(ready);
 
-// function obj(lon, lat) { return { x: lon, y: lat }; } // x:lon, y:lat
 function obj(lon, lat) { return  [lon, lat]; }
 
 var tooltip = d3.select("body")
   .append("div")
   .attr("id", "tooltip");
 
+var paths;
 
 function ready(error, data) {
+  paths = data;
+
   for(var i = 0; i < data.length; i++ ) {
 
     if(i > 1) {
@@ -113,22 +115,33 @@ function ready(error, data) {
 
       if( determineData(start[0], end[0], start_group, end_group) == true ) { 
         svg.append("path")
-            .datum({type: "LineString", coordinates: [start, end], name: start_group})
+            .datum({type: "LineString", coordinates: [start, end], name: start_group}) // datum
+            // .data(start_group)
             .attr("class", "arc")
             .attr("d", path)
             .style("stroke", getColor(start_group))
             .on("mouseover", function(d){
-              var tempText = tooltip.text(d.name);
-              // this.style.fill = "#9cdede";
-              this.style.stroke = "red";
+
+              // console.log(d3.select(this));
+              // console.log(d);
+              groupSelect(d.name);
+              tooltip.text(d.name);
+
+              // d3.select(this).style("stroke", "#9e1c1e");
+              // d3.select(this).style("stroke-opacity", 0.96);
+              // d3.select(this).style("stroke-width", 3);
+              // d3.select(this).moveToFront();
+
               tooltip.style("visibility", "visible");
             })
             .on("mousemove", function(){
               tooltip.style("top", (event.pageY-10)+"px").style("left",(event.pageX+10)+"px");
             })
-            .on("mouseout", function(){
-              this.style.stroke = "white";
-              // this.style.fill = "rgba(255,255,255,0.6)";
+            .on("mouseout", function(d){
+              // d3.select(this).style("stroke", "white");
+              //  d3.select(this).style("stroke-opacity", 0.5);
+              // d3.select(this).style("stroke-width", 0.8);
+              groupReset(d.name);
               tooltip.style("visibility", "hidden");
             });
             
@@ -136,16 +149,33 @@ function ready(error, data) {
 
     } // i >1
   }// for
-
 };// ready
+
+function groupSelect(name) {
+  svg.selectAll("path").each(function(e) {
+    // console.log(e);
+    if(e.name == name) {
+      d3.select(this).style("stroke", "#9e1c1e");
+      d3.select(this).style("stroke-opacity", 0.96);
+      d3.select(this).style("stroke-width", 3);
+      d3.select(this).moveToFront();
+    }
+  });
+}
+
+function groupReset(name) {
+  svg.selectAll("path").each(function(e) {
+    if(e.name == name) {
+      d3.select(this).style("stroke", "white");
+      d3.select(this).style("stroke-opacity", 0.5);
+      d3.select(this).style("stroke-width", 0.8);
+      // d3.select(this).moveToFront();
+    }
+  })
+}
 
 
 function determineData(a, b, c, d) {
-  // console.log('a: '+a);
-  // console.log('b: '+b);
-  // console.log('c: '+c);
-  // console.log('d: '+d);
-
   if (a != b & c == d) {
     return true;
   } else {
@@ -154,9 +184,6 @@ function determineData(a, b, c, d) {
 }
 
 function getColor(group) {
-  
-  // return '#4bc3fb';
-
   // if (group == 'MIT03') return '#4bc3fb';
   // else if(group == 'MIT05') return 'blue';
   // else if(group == 'MIT07') return 'yellow';
@@ -195,5 +222,11 @@ d3.json("world-50m.json", function(error, world) {
 });
 
 d3.select(self.frameElement).style("height", height + "px");
+
+d3.selection.prototype.moveToFront = function() {
+  return this.each(function(){
+    this.parentNode.appendChild(this);
+  });
+};
 
 </script>
