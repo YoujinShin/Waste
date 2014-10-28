@@ -13,9 +13,9 @@ var moment = require("moment"); // date manipulation library
 exports.index = function(req, res) {
 	console.log('main page requested');
 
-	// res.render('greatarc.html');
+	res.render('greatarc.html');
 	// res.render('worldtour.html');
-	res.render('main.html');
+	// res.render('main.html');
 }
 
 exports.worldtour = function(req, res) {
