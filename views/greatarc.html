@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <meta charset="utf-8">
 <head>
+<title>Monitour</title>
 <link href='http://fonts.googleapis.com/css?family=Lato:300,400' rel='stylesheet' type='text/css'>
 <style>
 body {
@@ -9,8 +10,18 @@ body {
 
   /*background-color: #fff;*/
   /*background-color: #f0f0f0;*/
-  background-color: "f9f6f5";
+  background-color: #f9f6f5;
   /*background-color: #4c4c4c;*/
+}
+h1 {
+  position: absolute;
+  font-family: 'Lato', sans-serif;
+  letter-spacing: 12px;
+  left: 5%;
+  top: 24px;
+  font-size: 21px;
+  /*font-weight: bold;*/
+  color: #222;
 }
 
 .graticule {
@@ -22,7 +33,7 @@ body {
 
 .land {
   fill: #ced3d8;
-  opacity: 0.9;
+  opacity: 1;
 }
 
 .arc {
@@ -33,8 +44,9 @@ body {
 }
 
 .memo {
-  font-family: 'Lato', sans-serif;
-  font-size: 12px;
+  font-family: Georgia, Arial, Helvetica, sans-serif !important;
+  /*font-family: 'Lato', sans-serif;*/
+  font-size: 13px;
   /*padding:10px;*/
 }
 
@@ -68,7 +80,7 @@ body {
 
 #timeline {
   position: absolute;
-  bottom: 10px;
+  bottom: 55px;
 }
 
 .axis path {
@@ -77,17 +89,18 @@ body {
 }
 .axis line {
   fill: none;
-  stroke: #999999;
+  stroke: #000;
 }
 .tick {
-    font-size:10px;
+  font-family: 'Lato', sans-serif;
+  font-size:10px;
 }
 </style>
 </head>
 
 
 <body>
-
+<!-- <h1>Monitour</h1> -->
 <div id="map"></div>
 <div id="timeline"></div>
 

@@ -2,7 +2,7 @@ var margin = { top: 10, right: 360, left: 360, bottom: 10 };
 
 var widthT = width,
 	widthT = widthT - margin.left - margin.right,
-	heightT = 110,
+	heightT = 70,
 	hegihtT = heightT - margin.top - margin.bottom;
 
 var parseDate = d3.time.format("%m/%d/%y").parse;
@@ -16,7 +16,8 @@ var x = d3.time.scale()
 
 var xAxis = d3.svg.axis()
 	.scale(x)
-	.orient("bottom");
+	.orient("bottom")
+	.ticks(5);
 
 // var yAxis = d3.svg.axis()
 // 	.scale(y)
@@ -34,13 +35,13 @@ queue()
   .await(makeTimeline);
 
 function makeTimeline(error, data) {
-	// var bg = svgT.append("rect")
-	// 			.attr("x", -margin.left)
-	// 			.attr("y", -margin.top)
-	// 			.attr("width", widthT + margin.left + margin.right)
-	// 			.attr("height", heightT + margin.top + margin.bottom)
-	// 			.style("fill", "#fff")
-	// 			.style("opacity", 0.4);
+	var bg = svgT.append("rect")
+				.attr("x", -margin.left)
+				.attr("y", -margin.top)
+				.attr("width", widthT + margin.left + margin.right)
+				.attr("height", heightT + margin.top + margin.bottom)
+				.style("fill", "#f9f6f5")
+				.style("opacity", 1);
 
 	data.forEach(function(d) {
 		d.date = parseDate(d.date);
@@ -58,12 +59,13 @@ function makeTimeline(error, data) {
      .style("opacity", 1)
      .attr("r", function(d) { return 3.6; })
      .attr("cx", function(d) { return x(d.date); })
-     .attr("cy", heightT/2);
+     .attr("cy", heightT/2-8);
+
+    var h = heightT/2 + 8;
 
   	svgT.append("g")
   	 .attr("class", "axis")
-  	 .attr("transform", "translate(0,"+heightT/2+
-  	 	")")
+  	 .attr("transform", "translate(0,"+h+")")
   	 .call(xAxis);
 }
 

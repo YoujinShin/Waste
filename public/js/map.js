@@ -1,5 +1,5 @@
 var width = 1440, // 1440 window
-    height = 580; // 540
+    height = 730; // 540
 
 // var projection = d3.geo.orthographic()
 var projection = d3.geo.equirectangular()
@@ -9,9 +9,9 @@ var projection = d3.geo.equirectangular()
     // .translate([width/2+160, 440])
     // .precision(0.02); //.1
 
-    .scale(320) // 340
+    .scale(270) // 340
     .rotate([160, 0]) // 160,0
-    .translate([width/2+150, 500])
+    .translate([width/2+120, 500])
     .precision(0.02); //.1
 
 var path = d3.geo.path()
@@ -108,7 +108,7 @@ function makeMap(error, data, points) {
      .append("text")
      .attr("class", "memo")
      .text(function(d) { return d.loc; })
-     .attr("fill", "#777") //555
+     .attr("fill", "#666") //555
      .attr("transform", function(d) {
       var lon = parseFloat(d.lon) + parseFloat(d.lon_d) ;
       var lat = parseFloat(d.lat) + parseFloat(d.lat_d);
@@ -120,7 +120,6 @@ function makeMap(error, data, points) {
 
 function groupSelect(name) {
   svg.selectAll("path").each(function(e) {
-    // console.log(e);
     if(e.name == name) {
       // d3.select(this).style("stroke", "#9e1c1e");
       d3.select(this).style("stroke-opacity", 0.98);
@@ -134,8 +133,10 @@ function groupSelect(name) {
   svgT.selectAll("circle").each(function(e) {
     if(e.group == name) {
       // console.log(e.group);
-      d3.select(this).attr("r", 8);
-      d3.select(this).style("opacity", 0.9);
+      d3.select(this)
+        .transition().duration(300)
+        .attr("r", 8);
+      d3.select(this).style("opacity", 0.95);
       d3.select(this).moveToFront();
     } else {
       d3.select(this).style("fill", "rgba(180,180,180,0.9)");
@@ -153,7 +154,9 @@ function groupReset(name) {
   })
 
   svgT.selectAll("circle").each(function(e) {
-    d3.select(this).attr("r", 3.6);
+    d3.select(this)
+      .transition().duration(0)
+      .attr("r", 3.6);
     d3.select(this).style("opacity", 0.7);
     d3.select(this).style("fill", getColor(e.group) );
   });
