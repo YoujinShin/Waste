@@ -11,7 +11,7 @@ var projection = d3.geo.equirectangular()
 
     .scale(220) // 340, 270
     .rotate([160, 0]) // 160,0
-    .translate([width/2+260, 420])
+    .translate([width/2+300, 450])
     .precision(0.02); //.1
 
 var path = d3.geo.path()
@@ -51,7 +51,8 @@ queue()
 
 function obj(lon, lat) { return  [lon, lat]; }
 
-var tooltip = d3.select("#map")
+// var tooltip = d3.select("#map")
+var tooltip = d3.select("#timeline")
   .append("div")
   .attr("id", "tooltip");
 
@@ -71,7 +72,7 @@ function makeMap(error, data, points) {
             .attr("class", "arc")
             .attr("d", path)
             .style("stroke", getColor(start_group))
-            .style("opacity", 0.5);
+            .style("opacity", 0.7);
             // .on("mouseover", function(d){
             //   groupSelect(d.name);
             //   tooltip.text(d.name);
@@ -95,8 +96,9 @@ function makeMap(error, data, points) {
      .enter()
      .append("circle")
      // .style("fill", "#474b7f")
-     .style("fill", "#fff")
-     .style("opacity", 0.25)
+     // .style("fill", "#fff")
+     .style("fill", function(d) { return getColor2(d.country); })
+     .style("opacity", 0.6)
      .attr("r", function(d) { return d.r; })
      .attr("transform", function(d) {
       return "translate("+
@@ -110,11 +112,11 @@ function makeMap(error, data, points) {
      .append("text")
      .attr("class", "memo")
      .text(function(d) { return d.loc; })
-     .style("visibility", function(d) {
-        if(d.loc == 'Los Angeles, CA') { return "visible"; }
-        else { return "hidden"; }
-     })
-     .attr("fill", "rgba(255,255,255,0.6)") //555
+     // .style("visibility", function(d) {
+     //    if(d.loc == 'Los Angeles, CA') { return "visible"; }
+     //    else { return "hidden"; }
+     // })
+     .attr("fill", "rgba(255,255,255,0.7)") //555
      .attr("transform", function(d) {
       var lon = parseFloat(d.lon) + parseFloat(d.lon_d2) ;
       var lat = parseFloat(d.lat) + parseFloat(d.lat_d2);
@@ -125,13 +127,15 @@ function makeMap(error, data, points) {
 };// ready
 
 function groupSelect(name) {
+  // svg.selectAll("circle").style("opacity", 1);
+
   svg.selectAll("path").each(function(e) {
     if(e.name == name) {
       // console.log(name);
       d3.select(this).style("stroke", "#fff");
-      d3.select(this).style("opacity", 1);
-      d3.select(this).style("stroke-width", 5);
-      d3.select(this).moveToFront();
+      d3.select(this).style("opacity", 0.9);
+      d3.select(this).style("stroke-width", 4);
+      // d3.select(this).moveToFront();
     } else {
       // d3.select(this).style("stroke", "rgba(100,100,100,0.9)");
     }
@@ -143,10 +147,10 @@ function groupSelect(name) {
       d3.select(this)
         .transition().duration(300)
         .attr("r", 6);
-      d3.select(this).style("opacity", 0.95);
-      d3.select(this).moveToFront();
+      d3.select(this).style("opacity", 0.9);
+      // d3.select(this).moveToFront();
     } else {
-      d3.select(this).style("fill", "rgba(180,180,180,0.9)");
+      // d3.select(this).style("fill", "rgba(180,180,180,0.9)");
     }
   });
 
@@ -154,9 +158,11 @@ function groupSelect(name) {
 }
 
 function groupReset(name) {
+  // svg.selectAll("circle").style("opacity", 0.7);
+
   svg.selectAll("path").each(function(e) {
     if(e.name == name) {
-      d3.select(this).style("opacity", 0.5);
+      d3.select(this).style("opacity", 0.7);
       d3.select(this).style("stroke-width", 1);
       // d3.select(this).moveToFront();
     }
@@ -165,9 +171,9 @@ function groupReset(name) {
   svgT.selectAll("circle").each(function(e) {
     d3.select(this)
       .transition().duration(0)
-      .attr("r", 3);
-    d3.select(this).style("opacity", 0.5);
-    d3.select(this).style("fill", getColor(e.group) );
+      .attr("r", 2.2);
+    d3.select(this).style("opacity", 0.9);
+    d3.select(this).style("fill", getColor2(e.country) );
   });
 }
 
@@ -181,7 +187,28 @@ function determineData(a, b, c, d) {
 
 function getColor(group) {
   return '#fff';
-  // // blue - high line
+  // blue - high line
+  // if (group == 'MIT03') return '#7e95ac';
+  // else if(group == 'MIT09') return '#6b7b93';
+
+  // // red - middle line
+  // else if(group == 'MIT07') return '#cb536b';
+  // else if(group == 'MIT10') return '#ef6a30';
+
+  // // green -  low line
+  // else if(group == 'MIT05') return '#599110';
+
+  // // in US only
+  // else if(group == 'MIT08') return '#b7342f';
+  // else if(group == 'MIT11') return '#353537';
+}
+
+function getColor2(country) {
+  if(country == 'us') { return '#fff'; }
+  else if(country == 'china'){ return '#ed4a4b'; }
+  else if(country == 'malaysia') { return '#41b6fb'; }
+  // else if(country == '')
+  // blue - high line
   // if (group == 'MIT03') return '#7e95ac';
   // else if(group == 'MIT09') return '#6b7b93';
 

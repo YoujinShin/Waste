@@ -1,4 +1,4 @@
-var margin = { top: 150, right: 70, left: 70, bottom: 10 };
+var margin = { top: 150, right: 80, left: 70, bottom: 10 };
 
 // var widthT = width,
 var widthT = 490,
@@ -48,91 +48,112 @@ function makeTimeline(error, data) {
 				.style("fill", "#010214")
 				.style("opacity", 1);
 
-	// svgT.append("line")
-	// 	.attr("x1", widthT)
-	// 	.attr("y1", 0)
-	// 	.attr("x2", widthT)
-	// 	.attr("y2", heightT - 200)
-	// 	.attr("stroke-width", 0.2)
-	// 	.attr("stroke", "rgba(255,255,255,1)");
+	// var bg2 = svgT.append("rect")
+	// 			.attr("x", -margin.left)
+	// 			.attr("y", -margin.top)
+	// 			.attr("width", widthT + margin.left + margin.right)
+	// 			.attr("height", heightT + margin.top + margin.bottom)
+	// 			.style("fill", "grey")
+	// 			// .style("fill", "#000")
+	// 			// .style("fill", "#010214")
+	// 			.style("opacity", 0.3);
+
+	// var bg2 = svgT.append("rect")
+	// 			.attr("x", 85)
+	// 			.attr("y", size)
+	// 			.attr("width", widthT-margin.right-5)
+	// 			.attr("height", size*7-60)
+	// 			.style("fill", "grey")
+	// 			// .style("fill", "#000")
+	// 			// .style("fill", "#010214")
+	// 			.style("opacity", 0.3);
 
 	data.forEach(function(d) {
 		d.date = parseDate(d.date);
 	});
 
 	x.domain(d3.extent(data, function(d) { return d.date; }));
-	// var extent = d3.extent(data, function(d) { return d.date; });
 
 	svgT.selectAll("circle")
      .data(data)
     .enter()
      .append("circle")
      // .style("fill", "#474b7f")
-     .style("fill", function(d) { return getColor(d.group); } )
-     .style("opacity", 0.5)
-     .attr("r", function(d) { return 3; })
+     .style("fill", function(d) { return getColor2(d.country); } )
+     .style("opacity", 0.9)
+     // .style("stroke", '#000')
+     // .style("stroke-width", 1)
+     .attr("r", function(d) { return 2.2; })
      .attr("cx", function(d) { return x(d.date); })
-     .attr("cy", function(d, i) {
-     	// console.log(d.group);
-     	// return heightT/2-8
-     	return getY(d.group);
+     .attr("cy", function(d, i) { return getY(d.group); })
+     .on("mouseover", function(d){
+     	d3.select(this).attr("r", 6);
+     	// tooltip.text(d.group +", "+d.country+", "+d.date);
+     	tooltip.text(d.address);
+     	tooltip.style("visibility", "visible");
+     })
+     .on("mousemove", function(){
+     	tooltip.style("top", (event.pageY-35)+"px").style("left",(event.pageX-3)+"px");
+     })
+     .on("mouseout", function(d){
+     	d3.select(this).attr("r", 2.2);
+     	tooltip.style("visibility", "hidden");
      });
 
-    // var h = heightT/2 + 8;
-    var h = size * 8;
+    var h = size * 7 + 25;
 
   	svgT.append("g")
   	 .attr("class", "axis")
   	 .attr("transform", "translate(0,"+h+")")
+  	 .style("text-anchor", "start")
   	 .call(xAxis);
 
   	var thisGroup;
 
   	for(var i = 1; i < 8; i++) {
+  		svgT.append("line")
+	    	.attr('class', 'label')
+	        .attr("x1", 85)
+	        .attr("y1", i*size )
+	        .attr("x2", widthT)
+	        .attr("y2", i*size)
+	        .style("stroke-dasharray", ("1, 7")) 
+	        .style("stroke", "rgba(255,255,255,0.7)")
+	        // .style("stroke", "rgba(255,255,255,0.5)")
+	        .style("stroke-width", 0.5);
 
 	    svgT.append("text")
 	    	.attr('class', 'label')
-	        .attr("x", 12)
+	        .attr("x", 10)
 	        .attr("y", i*size+3.3 )
 	        .text( getGroup(i) )
 	        // .style("fill", "#000");
 	        .style("fill", "rgba(255,255,255,0.8)");
 	        // .style("stroke", "rgba(255,255,255,0.5)")
 	        // .style("stroke-width", 2);
-	        
+
   		svgT.append("rect")
   		  	.datum({type: "LineString", group: getGroup2(i) }) 
-	  			.attr("x", 0)
+	  			.attr("x", -2)
 	  			.attr("y", i*size - 9)
 	  			.attr("width", 55)
 	  			.attr("height", 18)
-	  			.style("fill", "rgba(255,255,255,0.2)")
+	  			// .style("fill", "rgba(255,255,255,0.2)")
+	  			.style("fill", "#fff")
+	  			.style("opacity", 0.15)
   			.on("mouseover", function(d){
   				thisGroup = d3.select(this).property("__data__").group;
   				groupSelect(thisGroup);
-              // tooltip.text(getGroup2(i));
-              // tooltip.style("visibility", "visible");
+  				d3.select(this).style("opacity", 0.4);
             })
             .on("mousemove", function(){
               tooltip.style("top", (event.pageY-10)+"px").style("left",(event.pageX+10)+"px");
             })
             .on("mouseout", function(d){
             	thisGroup = d3.select(this).property("__data__").group;
-            	// console.log(thisGroup);
   				groupReset(thisGroup);
-              	// groupReset(getGroup2(i));
-              // tooltip.style("visibility", "hidden");
-            });;
-
-	    // svgT.append("circle")
-	    //     .attr("cx", 0)
-	    //     .attr("cy", i*size)
-	    //     .attr("r", 12)
-	    //     .style("fill", "rgba(255,255,255,0.5)")
-	    //     // .style("fill", "none")
-	    //     // .style("stroke", "rgba(255,255,255,0.5)")
-	    //     // .style("stroke-width", 2);
-
+  				d3.select(this).style("opacity", 0.15);
+            });        
   	}
 }
 
@@ -145,7 +166,6 @@ function getY(group) {
 	else if(group == 'MIT09') { return size*5; }
 	else if(group == 'MIT10') { return size*6; }
 	else if(group == 'MIT11') { return size*7; }
-	// else { return 200; }
 }
 
 function getGroup(num) {
@@ -167,7 +187,6 @@ function getGroup2(num) {
 	else if(num == 6) { return 'MIT10'}
 	else if(num == 7) { return 'MIT11'}
 }
-
 
 
 
