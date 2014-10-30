@@ -71,7 +71,7 @@ function makeMap(error, data, points) {
             .attr("class", "arc")
             .attr("d", path)
             .style("stroke", getColor(start_group))
-            .style("opacity", 0.6);
+            .style("opacity", 0.5);
             // .on("mouseover", function(d){
             //   groupSelect(d.name);
             //   tooltip.text(d.name);
@@ -128,9 +128,9 @@ function groupSelect(name) {
   svg.selectAll("path").each(function(e) {
     if(e.name == name) {
       // console.log(name);
-      // d3.select(this).style("stroke", "#9e1c1e");
-      d3.select(this).style("stroke-opacity", 1);
-      d3.select(this).style("stroke-width", 3);
+      d3.select(this).style("stroke", "#fff");
+      d3.select(this).style("opacity", 1);
+      d3.select(this).style("stroke-width", 5);
       d3.select(this).moveToFront();
     } else {
       // d3.select(this).style("stroke", "rgba(100,100,100,0.9)");
@@ -156,7 +156,7 @@ function groupSelect(name) {
 function groupReset(name) {
   svg.selectAll("path").each(function(e) {
     if(e.name == name) {
-      d3.select(this).style("stroke-opacity", 0.6);
+      d3.select(this).style("opacity", 0.5);
       d3.select(this).style("stroke-width", 1);
       // d3.select(this).moveToFront();
     }
