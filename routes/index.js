@@ -18,6 +18,11 @@ exports.index = function(req, res) {
 	// res.render('main.html');
 }
 
+exports.test = function(req, res) {
+	console.log('test page requested');
+	res.render('test.html');
+}
+
 exports.worldtour = function(req, res) {
 	console.log('worldtour page requested');
 	res.render('worldtour.html');

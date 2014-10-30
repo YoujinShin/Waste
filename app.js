@@ -75,6 +75,7 @@ var routes = require('./routes/index.js');
 app.get('/', routes.index);
 app.get('/worldtour', routes.worldtour);
 app.get('/greatarc', routes.greatarc);
+app.get('/test', routes.test);
 
 // //new astronaut routes
 // app.get('/create',routes.astroForm); //display form
