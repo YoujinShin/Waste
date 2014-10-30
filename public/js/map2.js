@@ -71,19 +71,19 @@ function makeMap(error, data, points) {
             .attr("class", "arc")
             .attr("d", path)
             .style("stroke", getColor(start_group))
-            .style("opacity", 0.7)
-            .on("mouseover", function(d){
-              groupSelect(d.name);
-              tooltip.text(d.name);
-              tooltip.style("visibility", "visible");
-            })
-            .on("mousemove", function(){
-              tooltip.style("top", (event.pageY-10)+"px").style("left",(event.pageX+10)+"px");
-            })
-            .on("mouseout", function(d){
-              groupReset(d.name);
-              tooltip.style("visibility", "hidden");
-            });
+            .style("opacity", 0.6);
+            // .on("mouseover", function(d){
+            //   groupSelect(d.name);
+            //   tooltip.text(d.name);
+            //   tooltip.style("visibility", "visible");
+            // })
+            // .on("mousemove", function(){
+            //   tooltip.style("top", (event.pageY-10)+"px").style("left",(event.pageX+10)+"px");
+            // })
+            // .on("mouseout", function(d){
+            //   groupReset(d.name);
+            //   tooltip.style("visibility", "hidden");
+            // });
             
       } // determineData();
     } // i >1
@@ -94,8 +94,9 @@ function makeMap(error, data, points) {
      .data(points)
      .enter()
      .append("circle")
-     .style("fill", "#474b7f")
-     .style("opacity", 0.6)
+     // .style("fill", "#474b7f")
+     .style("fill", "#fff")
+     .style("opacity", 0.25)
      .attr("r", function(d) { return d.r; })
      .attr("transform", function(d) {
       return "translate("+
@@ -109,10 +110,14 @@ function makeMap(error, data, points) {
      .append("text")
      .attr("class", "memo")
      .text(function(d) { return d.loc; })
-     .attr("fill", "#666") //555
+     .style("visibility", function(d) {
+        if(d.loc == 'Los Angeles, CA') { return "visible"; }
+        else { return "hidden"; }
+     })
+     .attr("fill", "rgba(255,255,255,0.6)") //555
      .attr("transform", function(d) {
-      var lon = parseFloat(d.lon) + parseFloat(d.lon_d) ;
-      var lat = parseFloat(d.lat) + parseFloat(d.lat_d);
+      var lon = parseFloat(d.lon) + parseFloat(d.lon_d2) ;
+      var lat = parseFloat(d.lat) + parseFloat(d.lat_d2);
 
       return "translate("+ projection([ lon, lat ]) + ")";
      });
@@ -122,9 +127,10 @@ function makeMap(error, data, points) {
 function groupSelect(name) {
   svg.selectAll("path").each(function(e) {
     if(e.name == name) {
+      // console.log(name);
       // d3.select(this).style("stroke", "#9e1c1e");
       d3.select(this).style("stroke-opacity", 1);
-      d3.select(this).style("stroke-width", 2.6);
+      d3.select(this).style("stroke-width", 3);
       d3.select(this).moveToFront();
     } else {
       // d3.select(this).style("stroke", "rgba(100,100,100,0.9)");
@@ -136,19 +142,21 @@ function groupSelect(name) {
       // console.log(e.group);
       d3.select(this)
         .transition().duration(300)
-        .attr("r", 8);
+        .attr("r", 6);
       d3.select(this).style("opacity", 0.95);
       d3.select(this).moveToFront();
     } else {
       d3.select(this).style("fill", "rgba(180,180,180,0.9)");
     }
   });
+
+  
 }
 
 function groupReset(name) {
   svg.selectAll("path").each(function(e) {
     if(e.name == name) {
-      d3.select(this).style("stroke-opacity", 0.7);
+      d3.select(this).style("stroke-opacity", 0.6);
       d3.select(this).style("stroke-width", 1);
       // d3.select(this).moveToFront();
     }
@@ -157,8 +165,8 @@ function groupReset(name) {
   svgT.selectAll("circle").each(function(e) {
     d3.select(this)
       .transition().duration(0)
-      .attr("r", 3.6);
-    d3.select(this).style("opacity", 0.7);
+      .attr("r", 3);
+    d3.select(this).style("opacity", 0.5);
     d3.select(this).style("fill", getColor(e.group) );
   });
 }

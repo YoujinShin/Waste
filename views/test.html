@@ -33,9 +33,10 @@ h1 {
 }
 
 .land {
+  fill: grey;
   /*fill: #ced3d8;*/
-  fill: #fff;
-  opacity: 0.1;
+  /*fill: #fff;*/
+  opacity: 0.3;
 }
 
 .arc {
@@ -78,11 +79,13 @@ h1 {
 #map {
   width: 100%;
   height: 100%;
+  position: absolute;
+  top: 0px;
 }
 
 #timeline {
   position: absolute;
-  bottom: 55px;
+  top: 0px;
 }
 
 .axis path {
@@ -91,11 +94,20 @@ h1 {
 }
 .axis line {
   fill: none;
-  stroke: #000;
+  stroke: #fff;
 }
 .tick {
   font-family: 'Lato', sans-serif;
   font-size:10px;
+  fill: rgba(255,255,255,0.6);
+  /*opacity: 0.1;*/
+}
+.label {
+  font-family: 'Lato', sans-serif;
+  font-size: 10px;
+  /*font-weight: bold;*/
+  /*background-color: red !important;*/
+  /*padding: 4px;*/
 }
 </style>
 </head>
@@ -116,6 +128,6 @@ h1 {
 <!-- <script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script> -->
 
 <script src="/js/map2.js"></script>
-<!-- <script src="/js/timeline2.js"></script> -->
+<script src="/js/timeline2.js"></script>
 
 </body>
