@@ -19,23 +19,37 @@ var path = d3.geo.path()
 
 var graticule = d3.geo.graticule();
 
+var zoom = d3.behavior.zoom()
+    .scaleExtent([1, 3])
+    .on("zoom", zoomed);
+
+
 var svg = d3.select("#map").append("svg")
     .attr("width", width)
     .attr("height", height);
 
-svg.append("path")
+var g = svg.append("g");
+
+svg
+    .call(zoom)
+    .call(zoom.event);
+
+// svg.append("path")
+g.append("path")
     .datum(graticule)
     .attr("class", "graticule")
     .attr("d", path);
 
 // d3.json("world-110m.json", function(error, world) {
 d3.json("world-50m.json", function(error, world) {
-  svg.insert("path", ".graticule")
+  // svg.insert("path", ".graticule")
+  g.insert("path", ".graticule")
       .datum(topojson.feature(world, world.objects.land))
       .attr("class", "land")
       .attr("d", path);
 
-  svg.insert("path", ".graticule")
+  // svg.insert("path", ".graticule")
+  g.insert("path", ".graticule")
       .datum(topojson.mesh(world, world.objects.countries, function(a, b) { return a !== b; }))
       .attr("class", "boundary")
       .attr("d", path);
@@ -67,7 +81,8 @@ function makeMap(error, data, points) {
       var end = obj(parseFloat(data[i-1].lon), parseFloat(data[i-1].lat));
 
       if( determineData(start[0], end[0], start_group, end_group) == true ) { 
-        svg.append("path")
+        // svg.append("path")
+        g.append("path")
             .datum({type: "LineString", coordinates: [start, end], name: start_group}) // datum
             .attr("class", "arc")
             .attr("d", path)
@@ -91,7 +106,8 @@ function makeMap(error, data, points) {
   }// for
 
   // CIRCLES
-  svg.selectAll("circle")
+  g.selectAll("circle")
+  // svg.selectAll("circle")
      .data(points)
      .enter()
      .append("circle")
@@ -106,7 +122,8 @@ function makeMap(error, data, points) {
       + ")"
      });
 
-  svg.selectAll("text")
+  g.selectAll("text")
+  // svg.selectAll("text")
      .data(points)
      .enter()
      .append("text")
@@ -129,16 +146,22 @@ function makeMap(error, data, points) {
 function groupSelect(name) {
   // svg.selectAll("circle").style("opacity", 1);
 
-  svg.selectAll("path").each(function(e) {
-    if(e.name == name) {
-      // console.log(name);
-      d3.select(this).style("stroke", "#fff");
-      d3.select(this).style("opacity", 0.9);
-      d3.select(this).style("stroke-width", 4);
-      // d3.select(this).moveToFront();
-    } else {
-      // d3.select(this).style("stroke", "rgba(100,100,100,0.9)");
+  // svg.selectAll("path").each(function(e) {
+  g.selectAll("path").each(function(e) {
+    // console.log(e.name);
+    if(determinePath(e.name) == true) {
+      if(e.name == name) {
+        // console.log(name);
+        d3.select(this).style("stroke", "#fff");
+        d3.select(this).style("opacity", 0.9);
+        d3.select(this).style("stroke-width", 4);
+        // d3.select(this).moveToFront();
+      } else {
+        d3.select(this).style("stroke", "rgba(100,100,100,0.8)");
+      }     
     }
+
+
   });
 
   svgT.selectAll("circle").each(function(e) {
@@ -153,25 +176,31 @@ function groupSelect(name) {
       // d3.select(this).style("fill", "rgba(180,180,180,0.9)");
     }
   });
-
-  
 }
 
 function groupReset(name) {
   // svg.selectAll("circle").style("opacity", 0.7);
 
-  svg.selectAll("path").each(function(e) {
-    if(e.name == name) {
-      d3.select(this).style("opacity", 0.7);
-      d3.select(this).style("stroke-width", 1);
-      // d3.select(this).moveToFront();
+  // svg.selectAll("path").each(function(e) {
+  
+  g.selectAll("path").each(function(e) {
+    if(determinePath(e.name) == true) {
+      // if(e.name == name) {
+        // console.log(e.name);
+        d3.select(this).style("stroke", "#fff");
+        d3.select(this).style("opacity", 0.7);
+        d3.select(this).style("stroke-width", 1);
+        // d3.select(this).moveToFront();
+      // }
     }
-  })
+  });
+  
 
   svgT.selectAll("circle").each(function(e) {
     d3.select(this)
       .transition().duration(0)
       .attr("r", 2.2);
+
     d3.select(this).style("opacity", 0.9);
     d3.select(this).style("fill", getColor2(e.country) );
   });
@@ -183,6 +212,17 @@ function determineData(a, b, c, d) {
   } else {
     return false;
   }
+}
+
+function determinePath(group) {
+  if (group == 'MIT03') return true;
+  else if(group == 'MIT09') return true;
+  else if(group == 'MIT07') return true;
+  else if(group == 'MIT10') return true;
+  else if(group == 'MIT05') return true;
+  else if(group == 'MIT08') return true;
+  else if(group == 'MIT11') return true;
+  else return false;
 }
 
 function getColor(group) {
@@ -231,3 +271,9 @@ d3.selection.prototype.moveToFront = function() {
     this.parentNode.appendChild(this);
   });
 };
+
+function zoomed() {
+  g.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
+}
+
+d3.select(self.frameElement).style("height", height + "px");
