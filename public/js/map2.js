@@ -33,6 +33,10 @@ var g = svg.append("g");
 svg.call(zoom)
    .call(zoom.event);
 
+// var animation = g.append("circle")
+//     .attr("r", 13)
+//     .attr("transform", "translate(0,0)");
+
 // svg.append("path")
 g.append("path")
     .datum(graticule)
@@ -151,7 +155,7 @@ function makeMap(error, data, points) {
 
 function groupSelect(name) {
   // svg.selectAll("circle").style("opacity", 1);
-  
+
   // svg.selectAll("path").each(function(e) {
   g.selectAll("path").each(function(e) {
     // console.log(e.name);
@@ -282,8 +286,32 @@ d3.selection.prototype.moveToFront = function() {
   });
 };
 
+////////// zoom
 function zoomed() {
   g.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
 }
 
 d3.select(self.frameElement).style("height", height + "px");
+
+
+// ///////// animation
+// transition();
+
+// function transition() {
+//   animation.transition()
+//       .duration(10000)
+//       .attrTween("transform", translateAlong(path.node()))
+//       .each("end", transition);
+// }
+
+// // returns an attrTween for translating along the specified path element.
+// function translateAlong(path) {
+//   var l = path.getTotalLength();
+//   return function(d, i, a) {
+//     return function(t) {
+//       var p = path.getPointAtLength(t * l);
+//       return "translate(" + p.x + "," + p.y + ")";
+//     };
+//   };
+// }
+
