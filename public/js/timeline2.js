@@ -142,6 +142,12 @@ function makeTimeline(error, data) {
 	  			// .style("fill", "rgba(255,255,255,0.2)")
 	  			.style("fill", "#fff")
 	  			.style("opacity", 0.15)
+	  		// .on("click", function(d) {
+	  		// 	console.log(d);
+		   //   	thisGroup = d3.select(this).property("__data__").group;
+  			// 	groupSelect(thisGroup);
+  			// 	d3.select(this).style("opacity", 0.4);
+		   //   })
   			.on("mouseover", function(d){
   				thisGroup = d3.select(this).property("__data__").group;
   				groupSelect(thisGroup);

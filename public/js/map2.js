@@ -151,7 +151,7 @@ function makeMap(error, data, points) {
 
 function groupSelect(name) {
   // svg.selectAll("circle").style("opacity", 1);
-
+  
   // svg.selectAll("path").each(function(e) {
   g.selectAll("path").each(function(e) {
     // console.log(e.name);
@@ -169,7 +169,6 @@ function groupSelect(name) {
         d3.select(this).style("stroke", "rgba(100,100,100,0.8)");
       }     
     }
-
 
   });
 
@@ -189,7 +188,6 @@ function groupSelect(name) {
 
 function groupReset(name) {
   // svg.selectAll("circle").style("opacity", 0.7);
-
   // svg.selectAll("path").each(function(e) {
   
   g.selectAll("path").each(function(e) {
