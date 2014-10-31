@@ -39,6 +39,7 @@ queue()
 
 function makeTimeline(error, data) {
 	var bg = svgT.append("rect")
+				.datum({type: "LineString", group: "" })
 				.attr("x", -margin.left)
 				.attr("y", -margin.top)
 				.attr("width", widthT + margin.left + margin.right)

@@ -30,9 +30,8 @@ var svg = d3.select("#map").append("svg")
 
 var g = svg.append("g");
 
-svg
-    .call(zoom)
-    .call(zoom.event);
+svg.call(zoom)
+   .call(zoom.event);
 
 // svg.append("path")
 g.append("path")
@@ -90,15 +89,22 @@ function makeMap(error, data, points) {
             .style("opacity", 0.7);
             // .on("mouseover", function(d){
             //   groupSelect(d.name);
-            //   tooltip.text(d.name);
-            //   tooltip.style("visibility", "visible");
+
+            //   // svgT.selectAll("rect").each(function(e) {
+            //   //   // console.log(e.group);
+            //   //   if(e.group == d.name) {
+            //   //     console.log(e.group);
+            //   //   }
+            //   // });
+            //   // tooltip.text(d.name);
+            //   // tooltip.style("visibility", "visible");
             // })
             // .on("mousemove", function(){
-            //   tooltip.style("top", (event.pageY-10)+"px").style("left",(event.pageX+10)+"px");
+            //   // tooltip.style("top", (event.pageY-10)+"px").style("left",(event.pageX+10)+"px");
             // })
             // .on("mouseout", function(d){
             //   groupReset(d.name);
-            //   tooltip.style("visibility", "hidden");
+            //   // tooltip.style("visibility", "hidden");
             // });
             
       } // determineData();
@@ -152,10 +158,13 @@ function groupSelect(name) {
     if(determinePath(e.name) == true) {
       if(e.name == name) {
         // console.log(name);
+
         d3.select(this).style("stroke", "#fff");
-        d3.select(this).style("opacity", 0.9);
-        d3.select(this).style("stroke-width", 4);
-        // d3.select(this).moveToFront();
+        d3.select(this).style("opacity", 1);
+        
+        d3.select(this).transition().duration(300)
+          .style("stroke-width", 3);
+        d3.select(this).moveToFront();
       } else {
         d3.select(this).style("stroke", "rgba(100,100,100,0.8)");
       }     
@@ -171,7 +180,7 @@ function groupSelect(name) {
         .transition().duration(300)
         .attr("r", 6);
       d3.select(this).style("opacity", 0.9);
-      // d3.select(this).moveToFront();
+      d3.select(this).moveToFront();
     } else {
       // d3.select(this).style("fill", "rgba(180,180,180,0.9)");
     }
@@ -189,7 +198,10 @@ function groupReset(name) {
         // console.log(e.name);
         d3.select(this).style("stroke", "#fff");
         d3.select(this).style("opacity", 0.7);
-        d3.select(this).style("stroke-width", 1);
+        // d3.select(this).style("stroke-width", 1);
+
+        d3.select(this).transition().duration(0)
+          .style("stroke-width", 1);
         // d3.select(this).moveToFront();
       // }
     }
