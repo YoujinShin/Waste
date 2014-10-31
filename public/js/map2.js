@@ -33,9 +33,11 @@ var g = svg.append("g");
 svg.call(zoom)
    .call(zoom.event);
 
-// var animation = g.append("circle")
-//     .attr("r", 13)
-//     .attr("transform", "translate(0,0)");
+var animation = g.append("circle")
+    .attr("r", 8)
+    .style("fill", "yellow")
+    .style("opacity", 0.8)
+    .attr("transform", "translate(0,0)");
 
 // svg.append("path")
 g.append("path")
@@ -153,6 +155,8 @@ function makeMap(error, data, points) {
 
 };// ready
 
+var currentpath;
+
 function groupSelect(name) {
   // svg.selectAll("circle").style("opacity", 1);
 
@@ -169,12 +173,19 @@ function groupSelect(name) {
         d3.select(this).transition().duration(300)
           .style("stroke-width", 3);
         d3.select(this).moveToFront();
+
+        currentpath = d3.select(this);
+        // console.log(currentpath);
+        // transition(currentpath);
+
       } else {
-        d3.select(this).style("stroke", "rgba(100,100,100,0.8)");
+        d3.select(this).style("stroke", "rgba(100,100,100,0.0)");
       }     
     }
 
   });
+
+  transition(currentpath);
 
   svgT.selectAll("circle").each(function(e) {
     if(e.group == name) {
@@ -209,6 +220,7 @@ function groupReset(name) {
     }
   });
   
+  animation.attr("transform", "translate(0,0)");
 
   svgT.selectAll("circle").each(function(e) {
     d3.select(this)
@@ -294,24 +306,26 @@ function zoomed() {
 d3.select(self.frameElement).style("height", height + "px");
 
 
-// ///////// animation
+/////////// animation
+
 // transition();
 
-// function transition() {
-//   animation.transition()
-//       .duration(10000)
-//       .attrTween("transform", translateAlong(path.node()))
-//       .each("end", transition);
-// }
+function transition(this_path) {
+  animation.transition()
+      .duration(1600)
+      .attrTween("transform", translateAlong(this_path.node()));
+      // .each("end", transition);
 
-// // returns an attrTween for translating along the specified path element.
-// function translateAlong(path) {
-//   var l = path.getTotalLength();
-//   return function(d, i, a) {
-//     return function(t) {
-//       var p = path.getPointAtLength(t * l);
-//       return "translate(" + p.x + "," + p.y + ")";
-//     };
-//   };
-// }
+  // animation.moveToFront();
+}
 
+// Returns an attrTween for translating along the specified path element.
+function translateAlong(this_node) {
+  var l = this_node.getTotalLength();
+  return function(d, i, a) {
+    return function(t) {
+      var p = this_node.getPointAtLength(t * l);
+      return "translate(" + p.x + "," + p.y + ")";
+    };
+  };
+}
