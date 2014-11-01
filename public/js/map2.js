@@ -9,9 +9,9 @@ var projection = d3.geo.equirectangular()
     // .translate([width/2+160, 440])
     // .precision(0.02); //.1
 
-    .scale(220) // 340, 270
+    .scale(230) // 340, 270
     .rotate([160, 0]) // 160,0
-    .translate([width/2+300, 450])
+    .translate([width/2+330, 450])
     .precision(0.02); //.1
 
 var path = d3.geo.path()
@@ -34,10 +34,17 @@ svg.call(zoom)
    .call(zoom.event);
 
 var animation = g.append("circle")
-    .attr("r", 8)
-    .style("fill", "yellow")
-    .style("opacity", 0.8)
-    .attr("transform", "translate(0,0)");
+    .attr("r", 10)
+    .style("fill", "rgba(0,0,0,0)")
+    // .style("fill", "#f17830")
+    // .style("opacity", 0)
+    // .style("stroke", "#faf733")// yellow
+    // .style("stroke", "#f17830")// orange
+    .style("stroke", "#fff")
+    .style("opacity", 0.9)
+    .style("stroke-width", 3)
+    .style("visibility", "hidden");
+    // .attr("transform", "translate(0,0)");
 
 // svg.append("path")
 g.append("path")
@@ -75,6 +82,7 @@ var tooltip = d3.select("#timeline")
   .append("div")
   .attr("id", "tooltip");
 
+
 function makeMap(error, data, points) {
   // PATHS
   for(var i = 0; i < data.length; i++ ) {
@@ -88,7 +96,8 @@ function makeMap(error, data, points) {
       if( determineData(start[0], end[0], start_group, end_group) == true ) { 
         // svg.append("path")
         g.append("path")
-            .datum({type: "LineString", coordinates: [start, end], name: start_group}) // datum
+            // .datum({type: "LineString", coordinates: [start, end], name: start_group}) // datum
+            .datum({type: "LineString", coordinates: [end, start], name: start_group})
             .attr("class", "arc")
             .attr("d", path)
             .style("stroke", getColor(start_group))
@@ -155,29 +164,38 @@ function makeMap(error, data, points) {
 
 };// ready
 
-var currentpath;
+
+var combinedD = "";
+var combinedPath = g.append("path")
+                    .style("fill", "none")
+                    .datum({type: "LineString", name: ""});
 
 function groupSelect(name) {
   // svg.selectAll("circle").style("opacity", 1);
+  combinedD = "";
 
   // svg.selectAll("path").each(function(e) {
+  var check = 0;
+
   g.selectAll("path").each(function(e) {
+    
     // console.log(e.name);
     if(determinePath(e.name) == true) {
       if(e.name == name) {
         // console.log(name);
 
         d3.select(this).style("stroke", "#fff");
-        d3.select(this).style("opacity", 1);
+        d3.select(this).style("opacity", 0.8);
         
         d3.select(this).transition().duration(300)
-          .style("stroke-width", 3);
+          .style("stroke-width", 2.2);
         d3.select(this).moveToFront();
 
-        currentpath = d3.select(this);
-        // console.log(currentpath);
-        // transition(currentpath);
+        combinedD = combinedD + d3.select(this).attr("d");
 
+        // if(check == 1) transition(d3.select(this));
+        // console.log(check);
+        // check++;
       } else {
         d3.select(this).style("stroke", "rgba(100,100,100,0.0)");
       }     
@@ -185,7 +203,10 @@ function groupSelect(name) {
 
   });
 
-  transition(currentpath);
+  // check = 0;
+  animation.style("visibility", "visible");
+  combinedPath.attr("d", combinedD);
+  transition(combinedPath);
 
   svgT.selectAll("circle").each(function(e) {
     if(e.group == name) {
@@ -204,6 +225,7 @@ function groupSelect(name) {
 function groupReset(name) {
   // svg.selectAll("circle").style("opacity", 0.7);
   // svg.selectAll("path").each(function(e) {
+  animation.style("visibility", "hidden");
   
   g.selectAll("path").each(function(e) {
     if(determinePath(e.name) == true) {
@@ -219,8 +241,9 @@ function groupReset(name) {
       // }
     }
   });
-  
-  animation.attr("transform", "translate(0,0)");
+
+  combinedD = "";
+  // animation.attr("transform", "translate(0,100)");
 
   svgT.selectAll("circle").each(function(e) {
     d3.select(this)
@@ -233,6 +256,12 @@ function groupReset(name) {
 }
 
 function determineData(a, b, c, d) {
+  // if (c == d) {
+  //   return true;
+  // } else {
+  //   return false;
+  // }
+
   if (a != b & c == d) {
     return true;
   } else {
@@ -273,21 +302,6 @@ function getColor2(country) {
   if(country == 'us') { return '#fff'; }
   else if(country == 'china'){ return '#ed4a4b'; }
   else if(country == 'malaysia') { return '#41b6fb'; }
-  // else if(country == '')
-  // blue - high line
-  // if (group == 'MIT03') return '#7e95ac';
-  // else if(group == 'MIT09') return '#6b7b93';
-
-  // // red - middle line
-  // else if(group == 'MIT07') return '#cb536b';
-  // else if(group == 'MIT10') return '#ef6a30';
-
-  // // green -  low line
-  // else if(group == 'MIT05') return '#599110';
-
-  // // in US only
-  // else if(group == 'MIT08') return '#b7342f';
-  // else if(group == 'MIT11') return '#353537';
 }
 
 
@@ -308,15 +322,13 @@ d3.select(self.frameElement).style("height", height + "px");
 
 /////////// animation
 
-// transition();
-
 function transition(this_path) {
   animation.transition()
-      .duration(1600)
+      .duration(1800)
       .attrTween("transform", translateAlong(this_path.node()));
       // .each("end", transition);
 
-  // animation.moveToFront();
+  animation.moveToFront();
 }
 
 // Returns an attrTween for translating along the specified path element.
