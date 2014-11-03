@@ -1,10 +1,10 @@
-var margin = { top: 150, right: 70, left: 70, bottom: 10 };
+var margin = { top: 170, right: 70, left: 70, bottom: 10 };
 // var margin = { top: 150, right: 80, left: 70, bottom: 10 };
 
 // var widthT = width,
 var widthT = 410,
 	widthT = widthT - margin.left - margin.right,
-	heightT = 530,
+	heightT = 510,
 	hegihtT = heightT - margin.top - margin.bottom;
 
 var parseDate = d3.time.format("%m/%d/%y").parse;
@@ -31,7 +31,7 @@ var svgT = d3.select("#timeline").append("svg")
 	.append("g")
 		.attr("transform", "translate("+margin.left+","+margin.top+")");
 
-var size = 62;
+var size = 60;
 
 queue()
   .defer(d3.csv, "monitoring2.csv")
