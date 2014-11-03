@@ -34,15 +34,15 @@ svg.call(zoom)
    .call(zoom.event);
 
 var animation = g.append("circle")
-    .attr("r", 10)
+    .attr("r", 11)
     .style("fill", "rgba(0,0,0,0)")
     // .style("fill", "#f17830")
     // .style("opacity", 0)
     // .style("stroke", "#faf733")// yellow
     // .style("stroke", "#f17830")// orange
     .style("stroke", "#fff")
-    .style("opacity", 0.9)
-    .style("stroke-width", 3)
+    .style("opacity", 0.4)
+    .style("stroke-width", 4)
     .style("visibility", "hidden");
     // .attr("transform", "translate(0,0)");
 
