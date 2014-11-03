@@ -2,7 +2,7 @@ var margin = { top: 150, right: 80, left: 70, bottom: 10 };
 // var margin = { top: 150, right: 80, left: 70, bottom: 10 };
 
 // var widthT = width,
-var widthT = 490,
+var widthT = 440,
 	widthT = widthT - margin.left - margin.right,
 	heightT = 530,
 	hegihtT = heightT - margin.top - margin.bottom;
@@ -31,7 +31,7 @@ var svgT = d3.select("#timeline").append("svg")
 	.append("g")
 		.attr("transform", "translate("+margin.left+","+margin.top+")");
 
-var size = 60;
+var size = 62;
 
 queue()
   .defer(d3.csv, "monitoring2.csv")
@@ -120,9 +120,9 @@ function makeTimeline(error, data) {
 	        .attr("x2", widthT)
 	        .attr("y2", i*size)
 	        .style("stroke-dasharray", ("1, 7")) 
-	        .style("stroke", "rgba(255,255,255,0.7)")
+	        .style("stroke", "rgba(255,255,255,1)")
 	        // .style("stroke", "rgba(255,255,255,0.5)")
-	        .style("stroke-width", 0.5);
+	        .style("stroke-width", 5);
 
 	    svgT.append("text")
 	    	.attr('class', 'label')

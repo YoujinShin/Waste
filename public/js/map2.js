@@ -9,9 +9,9 @@ var projection = d3.geo.equirectangular()
     // .translate([width/2+160, 440])
     // .precision(0.02); //.1
 
-    .scale(230) // 340, 270
+    .scale(250) // 340, 270
     .rotate([160, 0]) // 160,0
-    .translate([width/2+330, 480])
+    .translate([width/2+330, 530])
     .precision(0.02); //.1
 
 var path = d3.geo.path()
@@ -324,7 +324,7 @@ d3.select(self.frameElement).style("height", height + "px");
 
 function transition(this_path) {
   animation.transition()
-      .duration(1800)
+      .duration(1900)
       .attrTween("transform", translateAlong(this_path.node()));
       // .each("end", transition);
 
