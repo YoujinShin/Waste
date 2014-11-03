@@ -1,8 +1,8 @@
-var margin = { top: 150, right: 80, left: 70, bottom: 10 };
+var margin = { top: 150, right: 70, left: 70, bottom: 10 };
 // var margin = { top: 150, right: 80, left: 70, bottom: 10 };
 
 // var widthT = width,
-var widthT = 440,
+var widthT = 410,
 	widthT = widthT - margin.left - margin.right,
 	heightT = 530,
 	hegihtT = heightT - margin.top - margin.bottom;
@@ -85,7 +85,7 @@ function makeTimeline(error, data) {
      .style("opacity", 0.9)
      // .style("stroke", '#000')
      // .style("stroke-width", 1)
-     .attr("r", function(d) { return 2.2; })
+     .attr("r", function(d) { return 2.8; })
      .attr("cx", function(d) { return x(d.date); })
      .attr("cy", function(d, i) { return getY(d.group); })
      .on("mouseover", function(d){
@@ -98,7 +98,7 @@ function makeTimeline(error, data) {
      	tooltip.style("top", (event.pageY-35)+"px").style("left",(event.pageX-3)+"px");
      })
      .on("mouseout", function(d){
-     	d3.select(this).attr("r", 2.2);
+     	d3.select(this).attr("r", 2.8);
      	tooltip.style("visibility", "hidden");
      });
 
@@ -113,16 +113,16 @@ function makeTimeline(error, data) {
   	var thisGroup;
 
   	for(var i = 1; i < 8; i++) {
-  		svgT.append("line")
-	    	.attr('class', 'label')
-	        .attr("x1", 85)
-	        .attr("y1", i*size )
-	        .attr("x2", widthT)
-	        .attr("y2", i*size)
-	        .style("stroke-dasharray", ("1, 7")) 
-	        .style("stroke", "rgba(255,255,255,1)")
-	        // .style("stroke", "rgba(255,255,255,0.5)")
-	        .style("stroke-width", 5);
+  		// svgT.append("line")
+	   //  	.attr('class', 'label')
+	   //      .attr("x1", 85)
+	   //      .attr("y1", i*size )
+	   //      .attr("x2", widthT)
+	   //      .attr("y2", i*size)
+	   //      .style("stroke-dasharray", ("1, 7")) 
+	   //      // .style("stroke", "rgba(255,255,255,1)")
+	   //      .style("stroke", "red")
+	   //      .style("stroke-width", 5);
 
 	    svgT.append("text")
 	    	.attr('class', 'label')
@@ -161,7 +161,18 @@ function makeTimeline(error, data) {
             	thisGroup = d3.select(this).property("__data__").group;
   				groupReset(thisGroup);
   				d3.select(this).style("opacity", 0.15);
-            });        
+            });   
+
+        svgT.append("line")
+	    	.attr('class', 'label')
+	        .attr("x1", 85)
+	        .attr("y1", i*size )
+	        .attr("x2", widthT)
+	        .attr("y2", i*size)
+	        .style("stroke-dasharray", ("1, 7")) 
+	        // .style("stroke", "rgba(255,255,255,1)")
+	        .style("stroke", "red")
+	        .style("stroke-width", 5);     
   	}
 }
 
