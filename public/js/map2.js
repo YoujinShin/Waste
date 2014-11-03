@@ -1,5 +1,5 @@
 var width = 1440, // 1440 window
-    height = 730; // 540
+    height = 690; // 540, 730
 
 // var projection = d3.geo.orthographic()
 var projection = d3.geo.equirectangular()
@@ -11,7 +11,7 @@ var projection = d3.geo.equirectangular()
 
     .scale(230) // 340, 270
     .rotate([160, 0]) // 160,0
-    .translate([width/2+330, 450])
+    .translate([width/2+330, 480])
     .precision(0.02); //.1
 
 var path = d3.geo.path()

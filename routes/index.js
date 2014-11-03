@@ -13,10 +13,13 @@ var moment = require("moment"); // date manipulation library
 exports.index = function(req, res) {
 	console.log('main page requested');
 
-	res.render('test.html');
-	// res.render('greatarc.html');
-	// res.render('worldtour.html');
-	// res.render('main.html');
+	// res.render('test.html');
+	res.render('design.html');
+}
+
+exports.theme = function(req, res) {
+	console.log('theme page requested');
+	res.render('theme.html');
 }
 
 exports.test = function(req, res) {

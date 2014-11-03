@@ -76,6 +76,7 @@ app.get('/', routes.index);
 app.get('/worldtour', routes.worldtour);
 app.get('/greatarc', routes.greatarc);
 app.get('/test', routes.test);
+app.get('/theme', routes.theme);
 
 // //new astronaut routes
 // app.get('/create',routes.astroForm); //display form
