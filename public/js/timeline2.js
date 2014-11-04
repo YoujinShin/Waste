@@ -1,10 +1,9 @@
-var margin = { top: 170, right: 70, left: 70, bottom: 10 };
-// var margin = { top: 150, right: 80, left: 70, bottom: 10 };
+var margin = { top: 0, right: 70, left: 36, bottom: 20 };
 
 // var widthT = width,
-var widthT = 410,
+var widthT = 400,
 	widthT = widthT - margin.left - margin.right,
-	heightT = 510,
+	heightT = 360,
 	hegihtT = heightT - margin.top - margin.bottom;
 
 var parseDate = d3.time.format("%m/%d/%y").parse;
@@ -31,7 +30,7 @@ var svgT = d3.select("#timeline").append("svg")
 	.append("g")
 		.attr("transform", "translate("+margin.left+","+margin.top+")");
 
-var size = 60;
+var size = 44;
 
 queue()
   .defer(d3.csv, "monitoring2.csv")
@@ -48,27 +47,7 @@ function makeTimeline(error, data) {
 				// .style("fill", "#f9f6f5")
 				// .style("fill", "#000")
 				.style("fill", "#010214")
-				.style("opacity", 1);
-
-	// var bg2 = svgT.append("rect")
-	// 			.attr("x", -margin.left)
-	// 			.attr("y", -margin.top)
-	// 			.attr("width", widthT + margin.left + margin.right)
-	// 			.attr("height", heightT + margin.top + margin.bottom)
-	// 			.style("fill", "grey")
-	// 			// .style("fill", "#000")
-	// 			// .style("fill", "#010214")
-	// 			.style("opacity", 0.3);
-
-	// var bg2 = svgT.append("rect")
-	// 			.attr("x", 85)
-	// 			.attr("y", size)
-	// 			.attr("width", widthT-margin.right-5)
-	// 			.attr("height", size*7-60)
-	// 			.style("fill", "grey")
-	// 			// .style("fill", "#000")
-	// 			// .style("fill", "#010214")
-	// 			.style("opacity", 0.3);
+				.style("opacity", 0.25);
 
 	data.forEach(function(d) {
 		d.date = parseDate(d.date);
@@ -113,16 +92,17 @@ function makeTimeline(error, data) {
   	var thisGroup;
 
   	for(var i = 1; i < 8; i++) {
-  		// svgT.append("line")
-	   //  	.attr('class', 'label')
-	   //      .attr("x1", 85)
-	   //      .attr("y1", i*size )
-	   //      .attr("x2", widthT)
-	   //      .attr("y2", i*size)
-	   //      .style("stroke-dasharray", ("1, 7")) 
-	   //      // .style("stroke", "rgba(255,255,255,1)")
-	   //      .style("stroke", "red")
-	   //      .style("stroke-width", 5);
+  		svgT.append("line")
+	    	.attr('class', 'label')
+	        .attr("x1", 85)
+	        .attr("y1", i*size )
+	        .attr("x2", widthT)
+	        .attr("y2", i*size)
+	        .style("visibility", "visible")
+	        // .style("stroke-dasharray", ("1, 7")) 
+	        // .style("stroke", "rgba(255,255,255,1)")
+	        .style("stroke", "red")
+	        .style("stroke-width", 5);
 
 	    svgT.append("text")
 	    	.attr('class', 'label')
@@ -161,18 +141,7 @@ function makeTimeline(error, data) {
             	thisGroup = d3.select(this).property("__data__").group;
   				groupReset(thisGroup);
   				d3.select(this).style("opacity", 0.15);
-            });   
-
-        svgT.append("line")
-	    	.attr('class', 'label')
-	        .attr("x1", 85)
-	        .attr("y1", i*size )
-	        .attr("x2", widthT)
-	        .attr("y2", i*size)
-	        .style("stroke-dasharray", ("1, 7")) 
-	        // .style("stroke", "rgba(255,255,255,1)")
-	        .style("stroke", "red")
-	        .style("stroke-width", 5);     
+            });     
   	}
 }
 

@@ -9,9 +9,9 @@ var projection = d3.geo.equirectangular()
     // .translate([width/2+160, 440])
     // .precision(0.02); //.1
 
-    .scale(220) // 340, 270
+    .scale(247) // 340, 270
     .rotate([160, 0]) // 160,0
-    .translate([width/2+290, 500])
+    .translate([width/2-60, 590])
     .precision(0.02); //.1
 
 var path = d3.geo.path()
@@ -154,7 +154,7 @@ function makeMap(error, data, points) {
      //    if(d.loc == 'Los Angeles, CA') { return "visible"; }
      //    else { return "hidden"; }
      // })
-     .attr("fill", "rgba(255,255,255,0.7)") //555
+     .attr("fill", "rgba(255,255,255,0.6)") //555
      .attr("transform", function(d) {
       var lon = parseFloat(d.lon) + parseFloat(d.lon_d2) ;
       var lat = parseFloat(d.lat) + parseFloat(d.lat_d2);
