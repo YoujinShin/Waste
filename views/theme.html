@@ -18,11 +18,6 @@ body {
   margin: 0px;
   /*font-family: 'Open Sans Condensed', sans-serif;*/
   background-color: #fff !important;
-  /*background-color: #f0f0f0;*/
-  /*background-color: #f9f6f5;*/
-  /*background-color: #4c4c4c;*/
-  /*background-color: #010214;*/
-
   font-weight: 300 !important;
 }
 
@@ -35,8 +30,6 @@ body {
 
 .land {
   fill: grey;
-  /*fill: #ced3d8;
-  /*fill: #fff;*/
   opacity: 0.3;
 }
 
@@ -51,13 +44,11 @@ body {
   font-family: Georgia, Arial, Helvetica, sans-serif !important;
   /*font-family: 'Lato', sans-serif;*/
   font-size: 12px;
-  /*text-shadow: 1px 1px rgba(0,0,0,1);*/
 }
 
 .boundary {
   fill: none;
   stroke: none;
-  /*stroke: #fff;*/
   stroke-width: .5px;
   stroke-linejoin: round;
   stroke-linecap: round;
@@ -74,7 +65,6 @@ body {
   pointer-events: none;   
   font-size: 12px;    
   color: #fff;  
-  /*font-family: Arial;*/
   font-family: Georgia, Arial, Helvetica, sans-serif !important;
 }
 
@@ -97,21 +87,16 @@ body {
 }
 .axis line {
   fill: none;
-  /*stroke: #fff;*/
   stroke: rgba(255,255,255,0.3);
 }
 .tick {
   font-family: 'Lato', sans-serif;
   font-size:10px;
   fill: rgba(255,255,255,0.6);
-  /*opacity: 0.1;*/
 }
 .label {
   font-family: 'Lato', sans-serif;
   font-size: 10px !important;
-  /*font-weight: bold;*/
-  /*background-color: red !important;*/
-  /*padding: 4px;*/
 }
 .navbar-default {
 	background-color: #fff !important;
@@ -137,18 +122,24 @@ body {
 	font-weight: 400;
 }
 .subtitle {
-	/*position: absolute;*/
-	/*top: 100px !important;*/
-	/*left: 60px !important;*/
 	width: 100% !important;
 	text-align: center !important;
 	font-size: 36px !important;
 	z-index: 10 !important;
+	color: #fff;
 }
 .description {
 	text-align: left;
 	color: #000;
 }
+
+.displayed {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    height: 430px !important; 
+}
+
 </style>
 
 
@@ -185,7 +176,7 @@ body {
 	            <li class="active"><a href="#home" class="smothscroll">Home</a></li>
 	            <li><a href="#desc" class="smothscroll">Description</a></li>
 	            <li><a href="#images" class="smothScroll">Images</a></li>
-	            <li><a href="#contact" class="smothScroll">Contact</a></li>
+	            <li><a href="#team" class="smothScroll">Team</a></li>
 	          </ul>
 	        </div><!--/.nav-collapse -->
 	      </div>
@@ -262,16 +253,36 @@ body {
 					  <ol class="carousel-indicators">
 					    <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
 					    <li data-target="#carousel-example-generic" data-slide-to="1"></li>
+					    <li data-target="#carousel-example-generic" data-slide-to="2"></li>
+					    <li data-target="#carousel-example-generic" data-slide-to="3"></li>
+					    <li data-target="#carousel-example-generic" data-slide-to="4"></li>
+					    <li data-target="#carousel-example-generic" data-slide-to="5"></li>
 					  </ol>
 					
 					  <!-- Wrapper for slides -->
 					  <div class="carousel-inner">
+
 					    <div class="item active">
-					      <img src="assets/img/item-01.png" alt="">
+					      <img src="/img/embed_2048.jpg" alt="" class="displayed">
 					    </div>
 					    <div class="item">
-					      <img src="assets/img/item-02.png" alt="">
+					      <img src="/img/captures_2048.jpg" alt="" class="displayed">
 					    </div>
+
+					    <div class="item">
+					      <img src="/img/map_mong_cai.jpg" alt="" class="displayed">
+					    </div>
+					    <div class="item">
+					      <img src="/img/investigation_malaysia_2048.jpg" alt="" class="displayed">
+					    </div>
+					    <div class="item">
+					      <img src="/img/investigation_mong_cai_2048.jpg" alt="" class="displayed">
+					    </div>
+					    <div class="item">
+					      <img src="/img/investigation_pier_luc_lam_2048.jpg" alt="" class="displayed">
+					    </div>
+
+
 					  </div>
 					</div>
 				</div>
@@ -283,43 +294,57 @@ body {
 	</div>	
 
 
-	<section id="contact" name="contact"></section>
+	<section id="team" name="team"></section>
 	<div id="footerwrap">
 		<div class="container">
-			<div class="col-lg-5">
-				<h3>Address</h3>
-				<p>
-				Av. Greenville 987,<br/>
-				New York,<br/>
-				90873<br/>
-				United States
-				</p>
-			</div>
-			
-			<div class="col-lg-7">
-				<h3>Drop Us A Line</h3>
-				<br>
-				<form role="form" action="#" method="post" enctype="plain"> 
-				  <div class="form-group">
-				    <label for="name1">Your Name</label>
-				    <input type="name" name="Name" class="form-control" id="name1" placeholder="Your Name">
-				  </div>
-				  <div class="form-group">
-				    <label for="email1">Email address</label>
-				    <input type="email" name="Mail" class="form-control" id="email1" placeholder="Enter email">
-				  </div>
-				  <div class="form-group">
-				  	<label>Your Text</label>
-				  	<textarea class="form-control" name="Message" rows="3"></textarea>
-				  </div>
-				  <br>
-				  <button type="submit" class="btn btn-large btn-success">SUBMIT</button>
-				</form>
+			<h1 class="subtitle">Team</h1>
+			<br><br>
+
+			<div class="row centered">
+				
+				<div class="col-lg-4 description">
+
+					<h3>Senseable City Lab</h3>
+					<p>
+					Assaf Biderman project lead<br>
+					Dietmar Offenhuber<br>
+					David Lee<br>
+					Mark Yen<br>
+					David Perez<br>
+					Brandon Nadres<br>
+					James Simard<br>
+					Carlo Ratti director
+					</p>
+				</div>
+
+
+				<div class="col-lg-4 description">
+					<h3>Basel Action Network</h3>
+					<p>
+					Jim Puckett project lead<br>
+					Colin Groark<br>
+					Graham Kaplan<br>
+					</p>
+				</div>
+
+				<div class="col-lg-4 description">
+					<h3>Special thanks to</h3>
+					<p>
+					e-Recycling of California<br>
+					Richard Howlett battery consultant<br>
+					Eugene Lee<br>
+					</p>
+				</div>
+
 			</div>
 		</div>
 	</div>
 
-
+	<div id="c">
+		<div class="container">
+			<p>© 2013 MIT Senseable City Lab</p>
+		</div>
+	</div>
 
     <!-- Bootstrap core JavaScript
     ================================================== -->
