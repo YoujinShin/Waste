@@ -11,7 +11,7 @@ var projection = d3.geo.equirectangular()
 
     .scale(247) // 340, 270
     .rotate([160, 0]) // 160,0
-    .translate([width/2-75, 590])
+    .translate([width/2-55, 590])
     .precision(0.02); //.1
 
 var path = d3.geo.path()
