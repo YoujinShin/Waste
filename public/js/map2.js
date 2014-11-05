@@ -19,9 +19,9 @@ var path = d3.geo.path()
 
 var graticule = d3.geo.graticule();
 
-var zoom = d3.behavior.zoom()
-    .scaleExtent([1, 3])
-    .on("zoom", zoomed);
+// var zoom = d3.behavior.zoom()
+//     .scaleExtent([1, 3])
+//     .on("zoom", zoomed);
 
 
 var svg = d3.select("#map").append("svg")
@@ -30,8 +30,8 @@ var svg = d3.select("#map").append("svg")
 
 var g = svg.append("g");
 
-svg.call(zoom)
-   .call(zoom.event);
+// svg.call(zoom)
+//    .call(zoom.event);
 
 var animation = g.append("circle")
     .attr("r", 11)
@@ -313,11 +313,11 @@ d3.selection.prototype.moveToFront = function() {
 };
 
 ////////// zoom
-function zoomed() {
-  g.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
-}
+// function zoomed() {
+//   g.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
+// }
 
-d3.select(self.frameElement).style("height", height + "px");
+// d3.select(self.frameElement).style("height", height + "px");
 
 
 /////////// animation
@@ -341,3 +341,82 @@ function translateAlong(this_node) {
     };
   };
 }
+
+
+//***********************************************************
+// PAN-ZOOM CONTROL - FUNCTIONAL STYLE
+//***********************************************************
+var makePanZoomCTRL = function(id, width, height) {
+  var control = {}
+
+  var zoomMin = 1, // Levels of Zoom Out
+      zoomMax = 4, // Levels of Zoom In
+      zoomCur = 0, // Current Zoom
+      offsetX = 0, // Current X Offset (Pan)
+      offsetY = 0; // Current Y Offset (Pan)
+
+  var transform = function () {
+    var x = -((width  * zoomCur / 10) / 2)  + offsetX;
+    var y = -((height * zoomCur / 10) / 2)  + offsetY;
+    var s = (zoomCur / 10) + 1;
+    d3.select(id)
+      .attr("transform", "translate(" + x + " " + y + ") scale(" + s + ")");
+  };
+
+  control.pan = function (btnID) {
+    if (btnID === "panLeft") {
+      offsetX += 50;
+    } else if (btnID === "panRight") {
+      offsetX -= 50;
+    } else if (btnID === "panUp") {
+      offsetY += 50;
+    } else if (btnID === "panDown") { 
+      offsetY -= 50;
+    }
+    transform();
+  };
+
+  control.zoom = function (btnID) {
+    if (btnID === "zoomIn") {
+      if (zoomCur >= zoomMax) return;
+      zoomCur++;
+    } else if (btnID === "zoomOut") {
+      if (zoomCur <= zoomMin) return;
+      zoomCur--;
+    }
+    transform();
+  };
+  return control;
+}
+
+//***********************************************************
+// INSTANTIATE PAN-ZOOM CONTROL (CREATE INSTANCE)
+//***********************************************************
+var panZoom = makePanZoomCTRL('g', width, height);
+
+//***********************************************************
+// SET BUTTON EVENT LISTENERS
+//***********************************************************
+d3.selectAll("#zoomIn, #zoomOut")
+  .on("click", function () {
+    
+    d3.event.preventDefault();
+    var id = d3.select(this).attr("id");
+
+    // console.log("zoom control clicked");
+    // console.log(id);
+    
+    panZoom.zoom(id);
+  });
+
+d3.selectAll("#panLeft, #panRight, #panUp, #panDown")
+  .on("click", function () {
+    
+    d3.event.preventDefault();
+    var id = d3.select(this).attr("id");
+
+    // console.log("pan congrol clicked");
+    // console.log(id);
+
+    panZoom.pan(id);
+  });
