@@ -242,8 +242,9 @@ a:after {
 }
 .leaflet-bar a, .leaflet-bar a:hover {
   /*background-color: #fff;*/
-  background-color: rgba(255,255,255,0.4);
-  border-bottom: 1px solid rgba(255,255,255,0.4);
+  background-color: rgba(255,255,255,0.34);
+  /*border-bottom: 1px solid rgba(255,255,255,0.4);*/
+  border-bottom: 1.2px solid rgba(0,0,0,0.4);
 /*  width: 26px;
   height: 26px;*/
 
@@ -308,7 +309,7 @@ a:after {
 }
 .leaflet-control-pan a {
     /*background-color: #fff;*/
-    background-color: rgba(255,255,255,0.4);
+    background-color: rgba(255,255,255,0.34);
 }
 .leaflet-control-pan a{
   background-position: 50% 50%;
@@ -345,21 +346,24 @@ a:after {
   top:52px;
 }
 
-/*.leaflet-control-pan-up {
-  background-image: url(images/pan-up.png);
+.leaflet-control-pan-up {
+  background-image: url(up.png);
+  background-size: 9px 9px;
 }
 .leaflet-control-pan-left {
-  background-image: url(images/pan-left.png);
-}*/
+  background-image: url(left.png);
+  background-size: 9px 9px;
+}
 .leaflet-control-pan-right {
   background-image: url(right.png);
-  background-size: 10px 10px;
+  background-size: 9px 9px;
   /*width: ;*/
 }
-/*.leaflet-control-pan-down {
-  background-image: url(images/pan-down.png);
+.leaflet-control-pan-down {
+  background-image: url(down.png);
+  background-size: 9px 9px;
 }
-*/
+
 .leaflet-touch .leaflet-control-pan div {
   border: 4px solid rgba(0, 0, 0, 0.3);
   box-shadow: none;
@@ -375,7 +379,7 @@ a:after {
 .leaflet-touch .leaflet-control-pan a {
   width: 30px;
   height: 30px;
-  
+
   border-radius: 7px;
 }
 
@@ -399,7 +403,8 @@ a:after {
 
 .leaflet-control-container {
   position: relative;
-  top: 0px;
+  top: 56px;
+  left: -20px;
 }
 
 

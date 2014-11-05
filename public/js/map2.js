@@ -11,7 +11,7 @@ var projection = d3.geo.equirectangular()
 
     .scale(247) // 340, 270
     .rotate([160, 0]) // 160,0
-    .translate([width/2-55, 590])
+    .translate([width/2-10, 590])
     .precision(0.02); //.1
 
 var path = d3.geo.path()
@@ -409,14 +409,14 @@ d3.selectAll("#zoomIn, #zoomOut")
     panZoom.zoom(id);
   });
 
-d3.selectAll("#panLeft, #panRight, #panUp, #panDown")
-  .on("click", function () {
+// d3.selectAll("#panLeft, #panRight, #panUp, #panDown")
+//   .on("click", function () {
     
-    d3.event.preventDefault();
-    var id = d3.select(this).attr("id");
+//     d3.event.preventDefault();
+//     var id = d3.select(this).attr("id");
 
-    // console.log("pan congrol clicked");
-    // console.log(id);
+//     // console.log("pan congrol clicked");
+//     // console.log(id);
 
-    panZoom.pan(id);
-  });
+//     panZoom.pan(id);
+//   });
