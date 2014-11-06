@@ -173,20 +173,15 @@ var combinedPath = g.append("path")
                     .style("fill", "none")
                     .datum({type: "LineString", name: ""});
 
-function groupSelect(name) {
-  // svg.selectAll("circle").style("opacity", 1);
-  combinedD = "";
 
-  // svg.selectAll("path").each(function(e) {-
+function groupSelect(name) {
+  combinedD = "";
   var check = 0;
 
   g.selectAll("path").each(function(e) {
-    
     // console.log(e.name);
     if(determinePath(e.name) == true) {
       if(e.name == name) {
-        // console.log(name);
-
         d3.select(this).style("stroke", "#fff");
         d3.select(this).style("opacity", 0.8);
         
@@ -203,10 +198,10 @@ function groupSelect(name) {
         d3.select(this).style("stroke", "rgba(100,100,100,0.0)");
       }     
     }
-
   });
 
   // check = 0;
+  
   animation.style("visibility", "visible");
   combinedPath.attr("d", combinedD);
   transition(combinedPath);
@@ -226,9 +221,7 @@ function groupSelect(name) {
 }
 
 function groupReset(name) {
-  // svg.selectAll("circle").style("opacity", 0.7);
-  // svg.selectAll("path").each(function(e) {
-  animation.style("visibility", "hidden");
+  // animation.style("visibility", "hidden");
   
   g.selectAll("path").each(function(e) {
     if(determinePath(e.name) == true) {
@@ -236,7 +229,6 @@ function groupReset(name) {
         // console.log(e.name);
         d3.select(this).style("stroke", "#fff");
         d3.select(this).style("opacity", 0.7);
-        // d3.select(this).style("stroke-width", 1);
 
         d3.select(this).transition().duration(0)
           .style("stroke-width", 1);
@@ -245,7 +237,15 @@ function groupReset(name) {
     }
   });
 
+  // console.log(combinedPath.attr("d"));
+
   combinedD = "";
+  combinedPath.attr("d", combinedD);
+
+  // console.log("after");
+  // console.log(combinedPath.attr("d"));
+  // console.log("");
+
   // animation.attr("transform", "translate(0,100)");
 
   svgT.selectAll("circle").each(function(e) {

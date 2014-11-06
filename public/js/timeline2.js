@@ -136,24 +136,16 @@ function makeTimeline(error, data) {
 
   		// 		// Returns width of browser viewport
 				// console.log("browser: "+$( window ).width());	
-
 				// // Returns width of HTML document
 				// console.log("html: "+$( document ).width());
-
-
-				// // $( document ).width() = $( window ).width(); // not working !
-
 				// console.log("body: "+ $( "body" ).width());
 				// console.log("");
-
-				var body_with = $( "body" ).width();
-				$( document ).width( 1200);
             })
             .on("mousemove", function(){
-              tooltip.style("top", (event.pageY-10)+"px").style("left",(event.pageX+10)+"px");
+              // tooltip.style("top", (event.pageY-10)+"px").style("left",(event.pageX+10)+"px");
             })
             .on("mouseout", function(d){
-            	thisGroup = d3.select(this).property("__data__").group;
+      //       	thisGroup = d3.select(this).property("__data__").group;
   				groupReset(thisGroup);
   				d3.select(this).style("opacity", 0.15);
             });     
