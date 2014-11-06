@@ -47,7 +47,7 @@ function makeTimeline(error, data) {
 				// .style("fill", "#f9f6f5")
 				.style("fill", "#000")
 				// .style("fill", "#010214")
-				.style("opacity", 0.4);
+				.style("opacity", 0.2);
 
 	data.forEach(function(d) {
 		d.date = parseDate(d.date);
