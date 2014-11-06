@@ -404,7 +404,7 @@ a:after {
 .leaflet-control-container {
   position: relative;
   top: 86px;
-  left: 20px;
+  left: 0px;
 }
 
 

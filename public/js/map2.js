@@ -11,7 +11,7 @@ var projection = d3.geo.equirectangular()
 
     .scale(247) // 340, 270
     .rotate([160, 0]) // 160,0
-    .translate([width/2-40, 590])
+    .translate([width/2-50, 590])
     .precision(0.02); //.1
 
 var path = d3.geo.path()
@@ -28,10 +28,12 @@ var svg = d3.select("#map").append("svg")
     .attr("width", width)
     .attr("height", height);
 
-var g = svg.append("g");
 
 // svg.call(zoom)
 //    .call(zoom.event);
+
+var g = svg.append("g");
+
 
 var animation = g.append("circle")
     .attr("r", 11)
@@ -369,7 +371,7 @@ var makePanZoomCTRL = function(id, width, height) {
     var s = (zoomCur / 10) + 1;
 
     d3.select(id)
-      .transition().duration(420)
+      .transition().duration(480)
       .attr("transform", "translate(" + x + " " + y + ") scale(" + s + ")");
   };
 
@@ -390,11 +392,11 @@ var makePanZoomCTRL = function(id, width, height) {
     if (btnID === "zoomIn") {
       if (zoomCur >= zoomMax) return;
       // zoomCur++;
-      zoomCur = zoomCur + 4;
+      zoomCur = zoomCur + 5;
     } else if (btnID === "zoomOut") {
       if (zoomCur <= zoomMin) return;
       // zoomCur--;
-      zoomCur = zoomCur - 4;
+      zoomCur = zoomCur - 5;
     }
     transform();
   };
@@ -414,21 +416,27 @@ d3.selectAll("#zoomIn, #zoomOut")
     
     d3.event.preventDefault();
     var id = d3.select(this).attr("id");
-
-    // console.log("zoom control clicked");
-    // console.log(id);
-    
     panZoom.zoom(id);
   });
 
-// d3.selectAll("#panLeft, #panRight, #panUp, #panDown")
-//   .on("click", function () {
-    
-//     d3.event.preventDefault();
-//     var id = d3.select(this).attr("id");
 
-//     // console.log("pan congrol clicked");
-//     // console.log(id);
+var org_x = 0;
+var org_y = 0;
 
-//     panZoom.pan(id);
-//   });
+// zoom and pan
+var drag = d3.behavior.drag()
+    .on("dragstart", function() {
+      org_x = d3.event.sourceEvent.pageX;
+      org_y = d3.event.sourceEvent.pageY;
+    })
+    .on("drag",function() {
+      var x = d3.event.sourceEvent.pageX;
+      var y = d3.event.sourceEvent.pageY;
+
+      var tx = x - org_x;
+      var ty = y - org_y;
+
+      g.attr("transform","translate("+ tx + "," + ty + ")");
+  });
+
+svg.call(drag)

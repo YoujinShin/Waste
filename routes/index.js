@@ -6,13 +6,11 @@
  */
 
 var request = require('request'); // library to make requests to remote urls
-
 var moment = require("moment"); // date manipulation library
 // var astronautModel = require("../models/astronaut.js"); //db model
 
 exports.index = function(req, res) {
 	console.log('main page requested');
-
 	// res.render('test.html');
 	// res.render('design.html');
 	res.render('theme.html');
