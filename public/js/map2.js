@@ -157,7 +157,7 @@ function makeMap(error, data, points) {
      //    if(d.loc == 'Los Angeles, CA') { return "visible"; }
      //    else { return "hidden"; }
      // })
-     .attr("fill", "rgba(255,255,255,0.6)") //555
+     .attr("fill", "rgba(255,255,255,0.75)") //555
      .attr("transform", function(d) {
       var lon = parseFloat(d.lon) + parseFloat(d.lon_d2) ;
       var lat = parseFloat(d.lat) + parseFloat(d.lat_d2);
@@ -201,7 +201,7 @@ function groupSelect(name) {
   });
 
   // check = 0;
-  
+
   animation.style("visibility", "visible");
   combinedPath.attr("d", combinedD);
   transition(combinedPath);

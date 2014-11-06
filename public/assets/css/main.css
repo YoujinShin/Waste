@@ -242,7 +242,7 @@ a:after {
 }
 .leaflet-bar a, .leaflet-bar a:hover {
   /*background-color: #fff;*/
-  background-color: rgba(255,255,255,0.34);
+  background-color: rgba(255,255,255,0.3);
   /*border-bottom: 1px solid rgba(255,255,255,0.4);*/
   border-bottom: 1.2px solid rgba(0,0,0,0.4);
 /*  width: 26px;
@@ -403,8 +403,11 @@ a:after {
 
 .leaflet-control-container {
   position: relative;
-  top: 86px;
-  left: 0px;
+  top: 100px;
+  left: -30px;
+
+/*  top: 360px;
+  left: -30px;*/
 }
 
 

@@ -1,9 +1,9 @@
-var margin = { top: 0, right: 70, left: 36, bottom: 20 };
+var margin = { top: 0, right: 50, left: 32, bottom: 20 };
 
 // var widthT = width,
-var widthT = 380,
+var widthT = 360,
 	widthT = widthT - margin.left - margin.right,
-	heightT = 345,
+	heightT = 334,
 	hegihtT = heightT - margin.top - margin.bottom;
 
 var parseDate = d3.time.format("%m/%d/%y").parse;
@@ -30,7 +30,7 @@ var svgT = d3.select("#timeline").append("svg")
 	.append("g")
 		.attr("transform", "translate("+margin.left+","+margin.top+")");
 
-var size = 42;
+var size = 40;
 
 queue()
   .defer(d3.csv, "monitoring2.csv")
@@ -45,9 +45,9 @@ function makeTimeline(error, data) {
 				.attr("width", widthT + margin.left + margin.right)
 				.attr("height", heightT + margin.top + margin.bottom)
 				// .style("fill", "#f9f6f5")
-				// .style("fill", "#000")
-				.style("fill", "#010214")
-				.style("opacity", 0.3);
+				.style("fill", "#000")
+				// .style("fill", "#010214")
+				.style("opacity", 0.4);
 
 	data.forEach(function(d) {
 		d.date = parseDate(d.date);
