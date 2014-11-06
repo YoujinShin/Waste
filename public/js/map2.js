@@ -358,7 +358,7 @@ var makePanZoomCTRL = function(id, width, height) {
   var control = {}
 
   var zoomMin = 1, // Levels of Zoom Out
-      zoomMax = 4, // Levels of Zoom In
+      zoomMax = 6, // Levels of Zoom In
       zoomCur = 0, // Current Zoom
       offsetX = 0, // Current X Offset (Pan)
       offsetY = 0; // Current Y Offset (Pan)
@@ -367,7 +367,9 @@ var makePanZoomCTRL = function(id, width, height) {
     var x = -((width  * zoomCur / 10) / 2)  + offsetX;
     var y = -((height * zoomCur / 10) / 2)  + offsetY;
     var s = (zoomCur / 10) + 1;
+
     d3.select(id)
+      .transition().duration(420)
       .attr("transform", "translate(" + x + " " + y + ") scale(" + s + ")");
   };
 
@@ -387,10 +389,12 @@ var makePanZoomCTRL = function(id, width, height) {
   control.zoom = function (btnID) {
     if (btnID === "zoomIn") {
       if (zoomCur >= zoomMax) return;
-      zoomCur++;
+      // zoomCur++;
+      zoomCur = zoomCur + 4;
     } else if (btnID === "zoomOut") {
       if (zoomCur <= zoomMin) return;
-      zoomCur--;
+      // zoomCur--;
+      zoomCur = zoomCur - 4;
     }
     transform();
   };
