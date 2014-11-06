@@ -1,4 +1,4 @@
-var width = 1440, // 1440 window
+var width = 1436, // 1440 window
     height = 690; // 540, 730
 
 // var projection = d3.geo.orthographic()
@@ -11,7 +11,7 @@ var projection = d3.geo.equirectangular()
 
     .scale(247) // 340, 270
     .rotate([160, 0]) // 160,0
-    .translate([width/2-10, 590])
+    .translate([width/2-40, 590])
     .precision(0.02); //.1
 
 var path = d3.geo.path()
@@ -84,6 +84,14 @@ var tooltip = d3.select("#timeline")
 
 
 function makeMap(error, data, points) {
+  // Returns width of browser viewport
+    console.log("browser: "+ $( window ).width()); 
+       
+    // Returns width of HTML document
+    console.log("html: "+ $( document ).width());
+    console.log("body: "+ $( "body" ).width());
+    console.log("");
+
   // PATHS
   for(var i = 0; i < data.length; i++ ) {
     if(i > 1) {
@@ -174,7 +182,7 @@ function groupSelect(name) {
   // svg.selectAll("circle").style("opacity", 1);
   combinedD = "";
 
-  // svg.selectAll("path").each(function(e) {
+  // svg.selectAll("path").each(function(e) {-
   var check = 0;
 
   g.selectAll("path").each(function(e) {

@@ -1,9 +1,9 @@
 var margin = { top: 0, right: 70, left: 36, bottom: 20 };
 
 // var widthT = width,
-var widthT = 400,
+var widthT = 380,
 	widthT = widthT - margin.left - margin.right,
-	heightT = 360,
+	heightT = 345,
 	hegihtT = heightT - margin.top - margin.bottom;
 
 var parseDate = d3.time.format("%m/%d/%y").parse;
@@ -30,7 +30,7 @@ var svgT = d3.select("#timeline").append("svg")
 	.append("g")
 		.attr("transform", "translate("+margin.left+","+margin.top+")");
 
-var size = 44;
+var size = 42;
 
 queue()
   .defer(d3.csv, "monitoring2.csv")
@@ -133,6 +133,21 @@ function makeTimeline(error, data) {
   				thisGroup = d3.select(this).property("__data__").group;
   				groupSelect(thisGroup);
   				d3.select(this).style("opacity", 0.4);
+
+  				// Returns width of browser viewport
+				console.log("browser: "+$( window ).width());	
+
+				// Returns width of HTML document
+				console.log("html: "+$( document ).width());
+
+
+				// $( document ).width() = $( window ).width(); // not working !
+
+				console.log("body: "+ $( "body" ).width());
+				console.log("");
+
+				var body_with = $( "body" ).width();
+				$( document ).width( 1200);
             })
             .on("mousemove", function(){
               tooltip.style("top", (event.pageY-10)+"px").style("left",(event.pageX+10)+"px");
