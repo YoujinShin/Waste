@@ -369,8 +369,17 @@ var makePanZoomCTRL = function(id, width, height) {
     var x = -((width  * zoomCur / 10) / 2)  + t_x;
     var y = -((height * zoomCur / 10) / 2)  + t_y;
 
+    // if(start == true) {
+    //   var x = end_x + t_x;
+    //   var y = end_y + t_y;
+    // } else {
+    //   var x = -((width  * zoomCur / 10) / 2)  + t_x;
+    //   var y = -((height * zoomCur / 10) / 2)  + t_y;
+    // }
+
     end_x = x;
     end_y = y;
+
     zoomVal = (zoomCur / 10) + 1;
 
     d3.select(id)
