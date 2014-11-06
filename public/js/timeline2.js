@@ -1,9 +1,9 @@
-var margin = { top: 0, right: 50, left: 32, bottom: 20 };
+var margin = { top: 0, right: 50, left: 30, bottom: 20 };
 
 // var widthT = width,
-var widthT = 360,
+var widthT = 358,
 	widthT = widthT - margin.left - margin.right,
-	heightT = 334,
+	heightT = 330,
 	hegihtT = heightT - margin.top - margin.bottom;
 
 var parseDate = d3.time.format("%m/%d/%y").parse;
