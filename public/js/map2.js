@@ -19,15 +19,13 @@ var path = d3.geo.path()
 
 var graticule = d3.geo.graticule();
 
-// var zoom = d3.behavior.zoom()
-//     .scaleExtent([1, 3])
-//     .on("zoom", zoomed);
-
-
 var svg = d3.select("#map").append("svg")
     .attr("width", width)
     .attr("height", height);
 
+// var zoom = d3.behavior.zoom()
+//     .scaleExtent([1, 3])
+//     .on("zoom", zoomed);
 
 // svg.call(zoom)
 //    .call(zoom.event);
@@ -38,17 +36,12 @@ var g = svg.append("g");
 var animation = g.append("circle")
     .attr("r", 11)
     .style("fill", "rgba(0,0,0,0)")
-    // .style("fill", "#f17830")
-    // .style("opacity", 0)
-    // .style("stroke", "#faf733")// yellow
-    // .style("stroke", "#f17830")// orange
     .style("stroke", "#fff")
     .style("opacity", 0.4)
     .style("stroke-width", 4)
     .style("visibility", "hidden");
     // .attr("transform", "translate(0,0)");
 
-// svg.append("path")
 g.append("path")
     .datum(graticule)
     .attr("class", "graticule")
@@ -356,23 +349,34 @@ function translateAlong(this_node) {
 //***********************************************************
 // PAN-ZOOM CONTROL - FUNCTIONAL STYLE
 //***********************************************************
+
+var zoomVal = 1;
+var zoomCur = 0;
+
+var offsetX = 0;
+var offsetY = 0;
+
 var makePanZoomCTRL = function(id, width, height) {
   var control = {}
 
   var zoomMin = 1, // Levels of Zoom Out
-      zoomMax = 6, // Levels of Zoom In
-      zoomCur = 0, // Current Zoom
-      offsetX = 0, // Current X Offset (Pan)
-      offsetY = 0; // Current Y Offset (Pan)
+      zoomMax = 6; // Levels of Zoom In
+      // zoomCur = 0, // Current Zoom
+      // offsetX = 0, // Current X Offset (Pan)
+      // offsetY = 0; // Current Y Offset (Pan)
 
   var transform = function () {
-    var x = -((width  * zoomCur / 10) / 2)  + offsetX;
-    var y = -((height * zoomCur / 10) / 2)  + offsetY;
-    var s = (zoomCur / 10) + 1;
+    var x = -((width  * zoomCur / 10) / 2)  + t_x;
+    var y = -((height * zoomCur / 10) / 2)  + t_y;
+
+    end_x = x;
+    end_y = y;
+    zoomVal = (zoomCur / 10) + 1;
 
     d3.select(id)
       .transition().duration(480)
-      .attr("transform", "translate(" + x + " " + y + ") scale(" + s + ")");
+      // .attr("transform", "translate(" + 0 + ", " + 0 + ") scale(" + s + ")");
+      .attr("transform", "translate(" + x + " " + y + ") scale(" + zoomVal + ")");
   };
 
   control.pan = function (btnID) {
@@ -419,9 +423,22 @@ d3.selectAll("#zoomIn, #zoomOut")
     panZoom.zoom(id);
   });
 
-
 var org_x = 0;
 var org_y = 0;
+
+var cur_x = 0;
+var cur_y = 0;
+
+var end_x = width/2;
+var end_y = height/2;
+
+var t_x = 0;
+var t_y = 0;
+
+var c_x = 0;
+var c_y = 0;
+
+var start = false;
 
 // zoom and pan
 var drag = d3.behavior.drag()
@@ -429,14 +446,36 @@ var drag = d3.behavior.drag()
       org_x = d3.event.sourceEvent.pageX;
       org_y = d3.event.sourceEvent.pageY;
     })
-    .on("drag",function() {
-      var x = d3.event.sourceEvent.pageX;
-      var y = d3.event.sourceEvent.pageY;
+    .on("drag",function() {    
 
-      var tx = x - org_x;
-      var ty = y - org_y;
+      cur_x = d3.event.sourceEvent.pageX;
+      cur_y = d3.event.sourceEvent.pageY;
 
-      g.attr("transform","translate("+ tx + "," + ty + ")");
-  });
+      t_x = cur_x - org_x;
+      t_y = cur_y - org_y;
 
-svg.call(drag)
+      // offsetX = t_x;
+      // offsetY = t_y;
+
+      if(start == true) {
+        c_x = end_x + t_x;
+        c_y = end_y + t_y;
+      } else {
+        c_x = -((width  * zoomCur / 10) / 2)  + t_x;
+        c_y = -((height * zoomCur / 10) / 2)  + t_y;
+      }
+
+      g.attr("transform", "translate(" + c_x + " " + c_y + ") scale(" + zoomVal + ")");
+      // g.attr("transform", "translate(" + t_x + " " + t_y + ") scale(" + zoomVal + ")");
+    })
+    .on("dragend", function() {
+      end_x = c_x;
+      end_y = c_y;
+
+      start = true;
+    });
+
+svg.call(drag);
+
+
+

@@ -134,17 +134,17 @@ function makeTimeline(error, data) {
   				groupSelect(thisGroup);
   				d3.select(this).style("opacity", 0.4);
 
-  				// Returns width of browser viewport
-				console.log("browser: "+$( window ).width());	
+  		// 		// Returns width of browser viewport
+				// console.log("browser: "+$( window ).width());	
 
-				// Returns width of HTML document
-				console.log("html: "+$( document ).width());
+				// // Returns width of HTML document
+				// console.log("html: "+$( document ).width());
 
 
-				// $( document ).width() = $( window ).width(); // not working !
+				// // $( document ).width() = $( window ).width(); // not working !
 
-				console.log("body: "+ $( "body" ).width());
-				console.log("");
+				// console.log("body: "+ $( "body" ).width());
+				// console.log("");
 
 				var body_with = $( "body" ).width();
 				$( document ).width( 1200);
