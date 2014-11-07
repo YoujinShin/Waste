@@ -74,7 +74,17 @@ function makeTimeline(error, data) {
      	tooltip.style("visibility", "visible");
      })
      .on("mousemove", function(){
-     	tooltip.style("top", (event.pageY-35)+"px").style("left",(event.pageX-3)+"px");
+     	var coordinates = [0, 0];
+		coordinates = d3.mouse(this);
+		var mouse_x = coordinates[0];
+		var mouse_y = coordinates[1];
+
+     	// console.log("x: "+ mouse_x);
+     	// console.log("y: "+ mouse_y);
+
+     	tooltip.style("top", (mouse_y-35)+"px").style("left",(mouse_x-3)+"px");
+
+     	// tooltip.style("top", (event.pageY-35)+"px").style("left",(event.pageX-3)+"px");
      })
      .on("mouseout", function(d){
      	d3.select(this).attr("r", 2.8);

@@ -79,13 +79,6 @@ var tooltip = d3.select("#timeline")
 
 
 function makeMap(error, data, points) {
-  // Returns width of browser viewport
-    console.log("browser: "+ $( window ).width()); 
-       
-    // Returns width of HTML document
-    console.log("html: "+ $( document ).width());
-    console.log("body: "+ $( "body" ).width());
-    console.log("");
 
   // PATHS
   for(var i = 0; i < data.length; i++ ) {
