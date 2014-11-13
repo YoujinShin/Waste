@@ -206,7 +206,7 @@ a:after {
   float: right;
 }
 .leaflet-top .leaflet-control {
-  margin-top: 90px;
+  margin-top: -100px;
 }
 .leaflet-bottom .leaflet-control {
   margin-bottom: 10px;
@@ -242,9 +242,9 @@ a:after {
 }
 .leaflet-bar a, .leaflet-bar a:hover {
   /*background-color: #fff;*/
-  background-color: rgba(255,255,255,0.25);
+  background-color: rgba(255,255,255,0.6);
   /*border-bottom: 1px solid rgba(255,255,255,0.4);*/
-  border-bottom: 1.2px solid rgba(0,0,0,0.4);
+  border-bottom:2px solid rgba(0,0,0);
 /*  width: 26px;
   height: 26px;*/
 
@@ -255,7 +255,8 @@ a:after {
   display: block;
   text-align: center;
   text-decoration: none;
-  color: #000;
+  /*color: #000;*/
+  color: #fff;
   /*color: rgba(30,30,30,1);*/
 }
 .leaflet-bar a, .leaflet-control-layers-toggle {
