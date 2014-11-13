@@ -76,6 +76,7 @@ function obj(lon, lat) { return  [lon, lat]; }
 // var tooltip = d3.select("#map")
 var tooltip = d3.select("#timeline")
   .append("div")
+  // .attr('class', 'label2')
   .attr("id", "tooltip");
 
 
