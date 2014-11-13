@@ -158,21 +158,34 @@ body {
 
 .displayed {
     display: block;
-    margin-left: auto;
+    margin-left: 0px;
     margin-right: auto;
-    height: 480px !important;
+    width: 60% !important;
+    /*height: 480px !important;*/
 }
 .caption {
-	background-color: rgba(255,255,255,0.9);
-	padding: 10px;
-	left: 10%;
-	right: 10%;
+	/*background-color: rgba(255,255,255,0.5);*/
+	padding: 14px;
+	left: 25px;
+	right: 10px;
 	margin-left: 10px;
 	margin-right: 10px;
 	margin-bottom: 0px;
 	text-shadow: none;
-	font-size: bold !important;
-	color: #333;
+	font-size: 1.3em;
+	/*font-weight: bold !important;*/
+	color: #fff;
+	font-family: 'Lato', sans-serif;
+	text-align: left;
+}
+.carousel-caption {
+	left: 60% !important;
+	right: 8% !important;
+	top: 30px !important;
+	/*bottom: 8px !important;*/
+	margin: 0px !important;
+	padding: 0px !important;
+	z-index: -10;
 }
 </style>
 
@@ -304,8 +317,9 @@ body {
 			<div class="row">
 				<h1 class="centered">Images</h1>
 				<br>
-				<div class="col-lg-8 col-lg-offset-2">
-					<div id="carousel-example-generic" class="carousel slide">
+				<div class="col-lg-12 col-lg-offset-0">
+				<!-- <div class="col-lg-12"> -->
+					<div id="carousel-example-generic" class="carousel slide" style="width:100% !important; background-color:#000;">
 					  <!-- Indicators -->
 <!-- 					  <ol class="carousel-indicators">
 					    <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
@@ -317,9 +331,10 @@ body {
 					  </ol> -->
 					
 					  <!-- Wrapper for slides -->
-					  <div class="carousel-inner">
+					  <div class="carousel-inner" >
 
 					    <div class="item active">
+					      <!-- <img src="/img/embed_2048.jpg" alt="" class="displayed"> -->
 					      <img src="/img/embed_2048.jpg" alt="" class="displayed">
 					      <div class="container">
 				            <div class="carousel-caption">
@@ -391,14 +406,18 @@ body {
 					    <span class="glyphicon glyphicon-chevron-right"></span>
 					  </a>
 
-					</div>
-				</div>
-			</div>
+					</div> <!-- /carousel-example-generic  -->
+				</div> <!-- /col-lg-offset-2 -->
+			</div> <!-- /row -->
 			<br>
 			<br>
 			<br>	
+
+<!-- 			<div class="col-lg-3">
+				
+			</div> -->
 		</div><!-- /container -->
-	</div>	
+	</div>	<!-- /image -->
 
 
 	<section id="team" name="team"></section>
