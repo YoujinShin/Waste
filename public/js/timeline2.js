@@ -1,4 +1,4 @@
-var margin = { top: 125, right: 50, left: 30, bottom: 20 };
+var margin = { top: 115, right: 52, left: 32, bottom: 20 };
 
 // var widthT = width,
 var widthT = 440,
@@ -30,7 +30,7 @@ var svgT = d3.select("#timeline").append("svg")
 	.append("g")
 		.attr("transform", "translate("+margin.left+","+margin.top+")");
 
-var size = 40;
+var size = 39;
 
 queue()
   .defer(d3.csv, "monitoring2.csv")
@@ -45,7 +45,7 @@ function makeTimeline(error, data) {
 				.attr("y", -margin.top)
 				.attr("width", widthT + margin.left + margin.right)
 				.attr("height", heightT + margin.top + margin.bottom)
-				// .style("fill", "#f9f6f5")
+				// .style("fill", "#000")
 				.style("fill", "#fff")
 				// .style("fill", "#010214")
 				.style("opacity", 1);
@@ -59,9 +59,10 @@ function makeTimeline(error, data) {
 				// .style("fill", "#000")
 				// .style("fill", "#fff")
 				.style("fill", "#010214")
-				.style("opacity", 1);
-				// .attr("stroke", "rgba(255,255,255,1)")
-				// .attr("stroke-width", 0.4); // 0.2
+				.style("opacity", 1)
+				// .attr("stroke", "#010214")
+				.attr("stroke", "rgba(255,255,255,1)")
+				.attr("stroke-width", 0.4); // 0.2
 
 	// svgT.append("line")
 	// 	.attr("x1", -margin.left)
@@ -80,6 +81,14 @@ function makeTimeline(error, data) {
  //        .attr("stroke-width", 0.6)
  //        .attr("stroke", "#010214")
  //        .style("opacity", 1);
+
+ 	svgT.append("text")
+    	.attr('class', 'label2')
+        .attr("x", 10)
+        .attr("y", -22 )
+        .text( "Seven Trackers" )
+        // .style("fill", "#000");
+        .style("fill", "rgba(255,255,255,0.8)");
 	    
 
 	data.forEach(function(d) {
@@ -115,7 +124,7 @@ function makeTimeline(error, data) {
      	// console.log("x: "+ mouse_x);
      	// console.log("y: "+ mouse_y);
 
-     	tooltip.style("top", (mouse_y+86)+"px").style("left",(mouse_x+20)+"px");
+     	tooltip.style("top", (mouse_y+80)+"px").style("left",(mouse_x+20)+"px");
 
      	// tooltip.style("top", (event.pageY-35)+"px").style("left",(event.pageX-3)+"px");
      })
@@ -155,7 +164,7 @@ function makeTimeline(error, data) {
 	        .attr("y", i*size+3.3 )
 	        .text( getGroup(i) )
 	        // .style("fill", "#000");
-	        .style("fill", "rgba(255,255,255,0.9)");
+	        .style("fill", "rgba(255,255,255,0.6)");
 	        // .style("stroke", "rgba(255,255,255,0.5)")
 	        // .style("stroke-width", 2);
 
@@ -167,7 +176,7 @@ function makeTimeline(error, data) {
 	  			.attr("height", 18)
 	  			// .style("fill", "rgba(255,255,255,0.2)")
 	  			.style("fill", "#fff")
-	  			.style("opacity", 0.15)
+	  			.style("opacity", 0.12)
 	  		// .on("click", function(d) {
 	  		// 	console.log(d);
 		   //   	thisGroup = d3.select(this).property("__data__").group;
@@ -192,7 +201,7 @@ function makeTimeline(error, data) {
             .on("mouseout", function(d){
       //       	thisGroup = d3.select(this).property("__data__").group;
   				groupReset(thisGroup);
-  				d3.select(this).style("opacity", 0.15);
+  				d3.select(this).style("opacity", 0.1);
             });     
   	}
 }
