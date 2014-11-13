@@ -1,9 +1,9 @@
-var margin = { top: 0, right: 50, left: 30, bottom: 20 };
+var margin = { top: 125, right: 50, left: 30, bottom: 20 };
 
 // var widthT = width,
-var widthT = 358,
+var widthT = 440,
 	widthT = widthT - margin.left - margin.right,
-	heightT = 330,
+	heightT = 345,
 	hegihtT = heightT - margin.top - margin.bottom;
 
 var parseDate = d3.time.format("%m/%d/%y").parse;
@@ -38,16 +38,49 @@ queue()
   .await(makeTimeline);
 
 function makeTimeline(error, data) {
-	var bg = svgT.append("rect")
+	//background-color:#010214; opacity: 0.8
+	svgT.append("rect")
 				.datum({type: "LineString", group: "" })
 				.attr("x", -margin.left)
 				.attr("y", -margin.top)
 				.attr("width", widthT + margin.left + margin.right)
 				.attr("height", heightT + margin.top + margin.bottom)
 				// .style("fill", "#f9f6f5")
-				.style("fill", "#000")
+				.style("fill", "#fff")
 				// .style("fill", "#010214")
-				.style("opacity", 0.2);
+				.style("opacity", 1);
+
+	var bg = svgT.append("rect")
+				.datum({type: "LineString", group: "" })
+				.attr("x", -margin.left)
+				.attr("y", -margin.top)
+				.attr("width", widthT + margin.left + margin.right)
+				.attr("height", heightT + margin.top + margin.bottom)
+				// .style("fill", "#000")
+				// .style("fill", "#fff")
+				.style("fill", "#010214")
+				.style("opacity", 1);
+				// .attr("stroke", "rgba(255,255,255,1)")
+				// .attr("stroke-width", 0.4); // 0.2
+
+	// svgT.append("line")
+	// 	.attr("x1", -margin.left)
+ //        .attr("y1", -margin.top)
+ //        .attr("x2", -margin.left)
+ //        .attr("y2", heightT+margin.bottom)
+ //        .attr("stroke-width", 1)
+ //        .style("opacity", 0.3)
+	//     .attr("stroke", "white");
+
+	// svgT.append("line")
+	// 	.attr("x1", widthT + margin.right)
+ //        .attr("y1", -margin.top)
+ //        .attr("x2", widthT + margin.right)
+ //        .attr("y2", heightT+margin.bottom)
+ //        .attr("stroke-width", 0.6)
+ //        .attr("stroke", "#010214")
+ //        .style("opacity", 1);
+	    
 
 	data.forEach(function(d) {
 		d.date = parseDate(d.date);
@@ -82,7 +115,7 @@ function makeTimeline(error, data) {
      	// console.log("x: "+ mouse_x);
      	// console.log("y: "+ mouse_y);
 
-     	tooltip.style("top", (mouse_y-35)+"px").style("left",(mouse_x-3)+"px");
+     	tooltip.style("top", (mouse_y+86)+"px").style("left",(mouse_x+20)+"px");
 
      	// tooltip.style("top", (event.pageY-35)+"px").style("left",(event.pageX-3)+"px");
      })
@@ -99,20 +132,22 @@ function makeTimeline(error, data) {
   	 .style("text-anchor", "start")
   	 .call(xAxis);
 
+
+
   	var thisGroup;
 
   	for(var i = 1; i < 8; i++) {
   		svgT.append("line")
-	    	.attr('class', 'label')
+	    	// .attr('class', 'label')
 	        .attr("x1", 85)
 	        .attr("y1", i*size )
 	        .attr("x2", widthT)
 	        .attr("y2", i*size)
 	        .style("visibility", "visible")
-	        // .style("stroke-dasharray", ("1, 7")) 
-	        // .style("stroke", "rgba(255,255,255,1)")
-	        .style("stroke", "red")
-	        .style("stroke-width", 5);
+	        .style("stroke-dasharray", ("1, 8")) 
+	        .style("stroke", "rgba(255,255,255,0.7)")
+	        // .style("stroke", "red")
+	        .style("stroke-width", 0.7);
 
 	    svgT.append("text")
 	    	.attr('class', 'label')
@@ -120,7 +155,7 @@ function makeTimeline(error, data) {
 	        .attr("y", i*size+3.3 )
 	        .text( getGroup(i) )
 	        // .style("fill", "#000");
-	        .style("fill", "rgba(255,255,255,0.8)");
+	        .style("fill", "rgba(255,255,255,0.9)");
 	        // .style("stroke", "rgba(255,255,255,0.5)")
 	        // .style("stroke-width", 2);
 

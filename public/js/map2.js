@@ -1,5 +1,6 @@
-var width = 1436, // 1440 window
-    height = 690; // 540, 730
+// var width = 1436, // 1440 window
+var width = 1440,
+    height = 610; // 540, 730
 
 // var projection = d3.geo.orthographic()
 var projection = d3.geo.equirectangular()
@@ -9,9 +10,9 @@ var projection = d3.geo.equirectangular()
     // .translate([width/2+160, 440])
     // .precision(0.02); //.1
 
-    .scale(247) // 340, 270
+    .scale(240) // 340, 270
     .rotate([160, 0]) // 160,0
-    .translate([width/2-50, 590])
+    .translate([1020, 460])
     .precision(0.02); //.1
 
 var path = d3.geo.path()
@@ -176,7 +177,7 @@ function groupSelect(name) {
     if(determinePath(e.name) == true) {
       if(e.name == name) {
         d3.select(this).style("stroke", "#fff");
-        d3.select(this).style("opacity", 0.8);
+        d3.select(this).style("opacity", 0.9);
         
         d3.select(this).transition().duration(300)
           .style("stroke-width", 2.2);
@@ -199,22 +200,22 @@ function groupSelect(name) {
   combinedPath.attr("d", combinedD);
   transition(combinedPath);
 
-  svgT.selectAll("circle").each(function(e) {
-    if(e.group == name) {
-      // console.log(e.group);
-      d3.select(this)
-        .transition().duration(300)
-        .attr("r", 6);
-      d3.select(this).style("opacity", 0.9);
-      d3.select(this).moveToFront();
-    } else {
-      // d3.select(this).style("fill", "rgba(180,180,180,0.9)");
-    }
-  });
+  // svgT.selectAll("circle").each(function(e) {
+  //   if(e.group == name) {
+  //     // console.log(e.group);
+  //     d3.select(this)
+  //       .transition().duration(300)
+  //       .attr("r", 6);
+  //     d3.select(this).style("opacity", 0.9);
+  //     d3.select(this).moveToFront();
+  //   } else {
+  //     // d3.select(this).style("fill", "rgba(180,180,180,0.9)");
+  //   }
+  // });
 }
 
 function groupReset(name) {
-  // animation.style("visibility", "hidden");
+  animation.style("visibility", "hidden");
   
   g.selectAll("path").each(function(e) {
     if(determinePath(e.name) == true) {
@@ -241,14 +242,14 @@ function groupReset(name) {
 
   // animation.attr("transform", "translate(0,100)");
 
-  svgT.selectAll("circle").each(function(e) {
-    d3.select(this)
-      .transition().duration(0)
-      .attr("r", 2.2);
+  // svgT.selectAll("circle").each(function(e) {
+  //   d3.select(this)
+  //     .transition().duration(0)
+  //     .attr("r", 2.2);
 
-    d3.select(this).style("opacity", 0.9);
-    d3.select(this).style("fill", getColor2(e.country) );
-  });
+  //   d3.select(this).style("opacity", 0.9);
+  //   d3.select(this).style("fill", getColor2(e.country) );
+  // });
 }
 
 function determineData(a, b, c, d) {
