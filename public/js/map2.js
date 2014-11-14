@@ -35,10 +35,10 @@ var g = svg.append("g");
 
 
 var animation = g.append("circle")
-    .attr("r", 11)
+    .attr("r", 10)
     .style("fill", "rgba(0,0,0,0)")
     .style("stroke", "#fff")
-    .style("opacity", 0.4)
+    .style("opacity", 0.45)
     .style("stroke-width", 4)
     .style("visibility", "hidden");
     // .attr("transform", "translate(0,0)");
@@ -181,7 +181,7 @@ function groupSelect(name) {
         d3.select(this).style("opacity", 0.9);
         
         d3.select(this).transition().duration(300)
-          .style("stroke-width", 2.2);
+          .style("stroke-width", 1.1);
         d3.select(this).moveToFront();
 
         combinedD = combinedD + d3.select(this).attr("d");
@@ -322,7 +322,7 @@ d3.selection.prototype.moveToFront = function() {
 
 function transition(this_path) {
   animation.transition()
-      .duration(1900)
+      .duration(1800)
       .attrTween("transform", translateAlong(this_path.node()));
       // .each("end", transition);
 
