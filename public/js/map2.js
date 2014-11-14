@@ -160,7 +160,22 @@ function makeMap(error, data, points) {
       return "translate("+ projection([ lon, lat ]) + ")";
      });
 
+     startAnimation(groupReset);
+
 };// ready
+
+
+
+function startAnimation(callback) {
+  groupSelect("MIT03");
+
+  // setTimeout(groupSelect("MIT03"), 30000);
+
+  var timer = setTimeout(function () {
+    callback();
+  }, 2200);
+  // callback();
+}
 
 
 var combinedD = "";
@@ -322,7 +337,7 @@ d3.selection.prototype.moveToFront = function() {
 
 function transition(this_path) {
   animation.transition()
-      .duration(1800)
+      .duration(1900)
       .attrTween("transform", translateAlong(this_path.node()));
       // .each("end", transition);
 
