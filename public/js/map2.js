@@ -346,7 +346,7 @@ function translateAlong(this_node) {
 //***********************************************************
 
 var zoomVal = 1;
-var zoomCur = 0;
+var zoomCur = 5;
 
 var offsetX = 0;
 var offsetY = 0;
@@ -354,8 +354,8 @@ var offsetY = 0;
 var makePanZoomCTRL = function(id, width, height) {
   var control = {}
 
-  var zoomMin = 1, // Levels of Zoom Out
-      zoomMax = 6; // Levels of Zoom In
+  var zoomMin = 0, // Levels of Zoom Out
+      zoomMax = 10; // Levels of Zoom In
       // zoomCur = 0, // Current Zoom
       // offsetX = 0, // Current X Offset (Pan)
       // offsetY = 0; // Current Y Offset (Pan)
@@ -372,14 +372,21 @@ var makePanZoomCTRL = function(id, width, height) {
     //   var y = -((height * zoomCur / 10) / 2)  + t_y;
     // }
 
-    end_x = x;
-    end_y = y;
+    zoomVal = (zoomCur / 10) + 1;
+
+    d3.select(id)
+      .transition().duration(480)
+      .attr("transform", "translate(" + x + " " + y + ") scale(" + zoomVal + ")");
+  };
+
+  var transform2 = function (tempx, tempy) {
+    var x = -((width  * zoomCur / 10) / 2)  + tempx;
+    var y = -((height * zoomCur / 10) / 2)  + tempy;
 
     zoomVal = (zoomCur / 10) + 1;
 
     d3.select(id)
       .transition().duration(480)
-      // .attr("transform", "translate(" + 0 + ", " + 0 + ") scale(" + s + ")");
       .attr("transform", "translate(" + x + " " + y + ") scale(" + zoomVal + ")");
   };
 
@@ -396,18 +403,28 @@ var makePanZoomCTRL = function(id, width, height) {
     transform();
   };
 
+  control.pan2 = function (tempx, tempy) {
+    transform2(tempx, tempy);
+  };
+
   control.zoom = function (btnID) {
     if (btnID === "zoomIn") {
       if (zoomCur >= zoomMax) return;
       // zoomCur++;
-      zoomCur = zoomCur + 5;
+      zoomCur = zoomCur + 4;
     } else if (btnID === "zoomOut") {
       if (zoomCur <= zoomMin) return;
       // zoomCur--;
-      zoomCur = zoomCur - 5;
+      zoomCur = zoomCur - 4;
     }
     transform();
   };
+
+  control.zoom2 = function (zoomVal) {
+    zoomCur = zoomVal;
+    transform();
+  };
+
   return control;
 }
 
@@ -481,5 +498,32 @@ var drag = d3.behavior.drag()
 
 svg.call(drag);
 
+$(window).resize(function () { 
+  svg.attr("width", $(window).width());
+  // console.log(svg.attr("width"));
+  console.log('Width: ' + $(window).width()  + ' , Height :' + $(window).height());
 
+  if($(window).width()  < 1300 && $(window).width() > 1100) {
+    // panZoom.zoom("zoomOut");
+    zoomCur = -2;
+    panZoom.zoom2(-2);
+    panZoom.pan2(-100,0);
+
+  } else if($(window).width() > 1300) {
+    // panZoom.zoom("zoomIn");
+    zoomCur = 1;
+    panZoom.zoom2(0);
+    panZoom.pan2(0,0);
+
+  } else if($(window).width() < 1100 && $(window).width() > 950) {
+    zoomCur = -4;
+    panZoom.zoom2(-4);
+    panZoom.pan2(-140,0);
+
+  } else if($(window).width() < 950) {
+    zoomCur = -5;
+    panZoom.zoom2(-5);
+    panZoom.pan2(-170,0);
+  }
+});
 
