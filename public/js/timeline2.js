@@ -114,6 +114,7 @@ function makeTimeline(error, data) {
      	// tooltip.text(d.group +", "+d.country+", "+d.date);
      	tooltip.text(d.address);
      	tooltip.style("visibility", "visible");
+     	d3.select(this).style("cursor","hand");
      })
      .on("mousemove", function(){
      	var coordinates = [0, 0];
@@ -187,6 +188,7 @@ function makeTimeline(error, data) {
   				thisGroup = d3.select(this).property("__data__").group;
   				groupSelect(thisGroup);
   				d3.select(this).style("opacity", 0.4);
+  				d3.select(this).style("cursor","hand");
 
   		// 		// Returns width of browser viewport
 				// console.log("browser: "+$( window ).width());	

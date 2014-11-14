@@ -1,5 +1,5 @@
 // var width = 1436, // 1440 window
-var width = 1440,
+var width = 1438,
     height = 610; // 540, 730
 
 // var projection = d3.geo.orthographic()
