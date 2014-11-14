@@ -363,8 +363,9 @@ function translateAlong(this_node) {
 // PAN-ZOOM CONTROL - FUNCTIONAL STYLE
 //***********************************************************
 
-var zoomVal = 1;
-var zoomCur = 5;
+// var zoomVal = 1;
+var zoomCur = 0;
+var zoomVal = (zoomCur / 10) + 1;
 
 var offsetX = 0;
 var offsetY = 0;
@@ -456,6 +457,7 @@ var panZoom = makePanZoomCTRL('g', width, height);
 //***********************************************************
 d3.selectAll("#zoomIn, #zoomOut")
   .on("click", function () {
+    start = false;
     
     d3.event.preventDefault();
     var id = d3.select(this).attr("id");
@@ -504,6 +506,8 @@ var drag = d3.behavior.drag()
         c_y = -((height * zoomCur / 10) / 2)  + t_y;
       }
 
+      zoomVal = (zoomCur / 10) + 1;
+
       g.attr("transform", "translate(" + c_x + " " + c_y + ") scale(" + zoomVal + ")");
       // g.attr("transform", "translate(" + t_x + " " + t_y + ") scale(" + zoomVal + ")");
     })
@@ -524,24 +528,36 @@ $(window).resize(function () {
   if($(window).width()  < 1300 && $(window).width() > 1100) {
     // panZoom.zoom("zoomOut");
     zoomCur = -2;
+    zoomVal = (zoomCur / 10) + 1;
     panZoom.zoom2(-2);
     panZoom.pan2(-100,0);
+
+    start = false;
 
   } else if($(window).width() > 1300) {
     // panZoom.zoom("zoomIn");
     zoomCur = 1;
+    zoomVal = (zoomCur / 10) + 1;
     panZoom.zoom2(0);
     panZoom.pan2(0,0);
 
+    start = false;
+
   } else if($(window).width() < 1100 && $(window).width() > 950) {
     zoomCur = -4;
+    zoomVal = (zoomCur / 10) + 1;
     panZoom.zoom2(-4);
     panZoom.pan2(-140,0);
 
+    start = false;
+
   } else if($(window).width() < 950) {
     zoomCur = -5;
+    zoomVal = (zoomCur / 10) + 1;
     panZoom.zoom2(-5);
     panZoom.pan2(-170,0);
+
+    start = false;
   }
 });
 
