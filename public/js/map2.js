@@ -169,11 +169,14 @@ function makeMap(error, data, points) {
 function startAnimation(callback) {
   groupSelect("MIT03");
 
-  // setTimeout(groupSelect("MIT03"), 30000);
-
-  var timer = setTimeout(function () {
+  setTimeout(function () {
     callback();
-  }, 2200);
+  }, 2300);
+
+  // var timer = setTimeout(function () {
+  //   callback();
+  // }, 2200);
+
   // callback();
 }
 
@@ -516,7 +519,7 @@ svg.call(drag);
 $(window).resize(function () { 
   svg.attr("width", $(window).width());
   // console.log(svg.attr("width"));
-  console.log('Width: ' + $(window).width()  + ' , Height :' + $(window).height());
+  // console.log('Width: ' + $(window).width()  + ' , Height :' + $(window).height());
 
   if($(window).width()  < 1300 && $(window).width() > 1100) {
     // panZoom.zoom("zoomOut");
