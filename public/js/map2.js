@@ -383,6 +383,12 @@ var makePanZoomCTRL = function(id, width, height) {
     var x = -((width  * zoomCur / 10) / 2)  + t_x;
     var y = -((height * zoomCur / 10) / 2)  + t_y;
 
+    end_x = x;
+    end_y = y;
+    
+    // dx = x;
+    // dy = y;
+
     // if(start == true) {
     //   var x = end_x + t_x;
     //   var y = end_y + t_y;
@@ -401,6 +407,9 @@ var makePanZoomCTRL = function(id, width, height) {
   var transform2 = function (tempx, tempy) {
     var x = -((width  * zoomCur / 10) / 2)  + tempx;
     var y = -((height * zoomCur / 10) / 2)  + tempy;
+
+    end_x = tempx;
+    end_y = tempy;
 
     zoomVal = (zoomCur / 10) + 1;
 
@@ -457,7 +466,7 @@ var panZoom = makePanZoomCTRL('g', width, height);
 //***********************************************************
 d3.selectAll("#zoomIn, #zoomOut")
   .on("click", function () {
-    start = false;
+    // start = false;
     
     d3.event.preventDefault();
     var id = d3.select(this).attr("id");
@@ -479,6 +488,9 @@ var t_y = 0;
 var c_x = 0;
 var c_y = 0;
 
+var dx = 0;
+var dy = 0;
+
 var start = false;
 
 // zoom and pan
@@ -488,6 +500,8 @@ var drag = d3.behavior.drag()
       org_y = d3.event.sourceEvent.pageY;
     })
     .on("drag",function() {    
+
+      console.log(start);
 
       cur_x = d3.event.sourceEvent.pageX;
       cur_y = d3.event.sourceEvent.pageY;
@@ -502,8 +516,10 @@ var drag = d3.behavior.drag()
         c_x = end_x + t_x;
         c_y = end_y + t_y;
       } else {
-        c_x = -((width  * zoomCur / 10) / 2)  + t_x;
-        c_y = -((height * zoomCur / 10) / 2)  + t_y;
+        // c_x = end_x + t_x;
+        // c_y = end_y + t_y;
+        c_x = -((width  * zoomCur / 10) / 2)  + t_x + dx;
+        c_y = -((height * zoomCur / 10) / 2)  + t_y + dy;
       }
 
       zoomVal = (zoomCur / 10) + 1;
@@ -532,6 +548,8 @@ $(window).resize(function () {
     panZoom.zoom2(-2);
     panZoom.pan2(-100,0);
 
+    dx = -100;
+
     start = false;
 
   } else if($(window).width() > 1300) {
@@ -541,6 +559,8 @@ $(window).resize(function () {
     panZoom.zoom2(0);
     panZoom.pan2(0,0);
 
+    dx = 0;
+
     start = false;
 
   } else if($(window).width() < 1100 && $(window).width() > 950) {
@@ -549,6 +569,8 @@ $(window).resize(function () {
     panZoom.zoom2(-4);
     panZoom.pan2(-140,0);
 
+    dx = -140;
+
     start = false;
 
   } else if($(window).width() < 950) {
@@ -556,6 +578,8 @@ $(window).resize(function () {
     zoomVal = (zoomCur / 10) + 1;
     panZoom.zoom2(-5);
     panZoom.pan2(-170,0);
+
+    dx = -170;
 
     start = false;
   }
