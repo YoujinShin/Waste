@@ -184,7 +184,25 @@ body {
 	color: #000;
 	font-family: 'Lato', sans-serif;
 	text-align: left;
+	line-height: 140%;
 }
+
+@media all and (max-width: 1200px) { /* screen size until 1200px */
+    .caption {
+        font-size: 1.1em; /* 1.5x default size */
+    }
+}
+@media all and (max-width: 1000px) { /* screen size until 1000px */
+    .caption {
+        font-size: 0.9em; /* 1.2x default size */
+        }
+    }
+@media all and (max-width: 500px) { /* screen size until 500px */
+    .caption {
+        font-size: 0.8em; /* 0.8x default size */
+        }
+    }
+
 .carousel-caption {
 	left: 60% !important;
 	right: 8% !important;
