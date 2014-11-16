@@ -501,7 +501,7 @@ var drag = d3.behavior.drag()
     })
     .on("drag",function() {    
 
-      console.log(start);
+      // console.log(start);
 
       cur_x = d3.event.sourceEvent.pageX;
       cur_y = d3.event.sourceEvent.pageY;
