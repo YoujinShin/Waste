@@ -13,28 +13,28 @@ exports.index = function(req, res) {
 	console.log('main page requested');
 	// res.render('test.html');
 	// res.render('design.html');
-	res.render('theme.html');
+	// res.render('theme.html');
 }
 
-exports.theme = function(req, res) {
-	console.log('theme page requested');
-	res.render('theme.html');
-}
+// exports.theme = function(req, res) {
+// 	console.log('theme page requested');
+// 	res.render('theme.html');
+// }
 
-exports.test = function(req, res) {
-	console.log('test page requested');
-	res.render('test.html');
-}
+// exports.test = function(req, res) {
+// 	console.log('test page requested');
+// 	res.render('test.html');
+// }
 
-exports.worldtour = function(req, res) {
-	console.log('worldtour page requested');
-	res.render('worldtour.html');
-}
+// exports.worldtour = function(req, res) {
+// 	console.log('worldtour page requested');
+// 	res.render('worldtour.html');
+// }
 
-exports.greatarc = function(req, res) {
-	console.log('greatarc page requested');
-	res.render('greatarc.html');
-}
+// exports.greatarc = function(req, res) {
+// 	console.log('greatarc page requested');
+// 	res.render('greatarc.html');
+// }
 
 // /*
 // 	GET /
