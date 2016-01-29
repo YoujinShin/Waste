@@ -13,7 +13,7 @@ exports.index = function(req, res) {
 	console.log('main page requested');
 	// res.render('test.html');
 	// res.render('design.html');
-	// res.render('theme.html');
+	res.render('theme.html');
 }
 
 // exports.theme = function(req, res) {
